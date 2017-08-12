@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -27,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.google.android.youtube.player.YouTubeIntents;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
 import org.json.JSONArray;
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("xDays - xTalks");
 
-        mDatabase = new DatabaseMgr(this, this.getIntent().getExtras().getString("username"));
+        mDatabase = new DatabaseMgr(this, getIntent().getExtras().getString("username"));
         ListView mLsvVideo = (ListView) findViewById(R.id.list_view);
         mAdapter = new CustomAdapter(mCtx, R.layout.list_row, R.id.txv_title, mPlayList);
         mLsvVideo.setAdapter(mAdapter);
@@ -59,10 +61,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Video video = mPlayList.get(position);
-                Intent intent = YouTubeStandalonePlayer.createVideoIntent((Activity) mCtx,
-                        API_KEY, video.getId());
-                startActivity(intent);
                 mDatabase.modifyHistory(video);
+                Intent intent;
+                if (isYouTubeAppUsable()) {
+                    intent = YouTubeStandalonePlayer
+                            .createVideoIntent((Activity) mCtx, API_KEY, video.getId());
+                } else {
+                    intent = new Intent(mCtx, WebViewActivity.class);
+                    intent.putExtra("id", video.getId());
+                }
+                startActivity(intent);
             }
         });
         getPlaylist();
@@ -153,6 +161,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         NetworkMgr.getInstance(mCtx).getRequestQueue().add(jsonObjectRequest);
+    }
+
+    boolean isYouTubeAppUsable() {
+        try {
+            return getPackageManager().getApplicationInfo("com.google.android.youtube", 0).enabled
+                    && YouTubeIntents.getInstalledYouTubeVersionCode(mCtx) >= 4216;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     private static class ViewHolder {
