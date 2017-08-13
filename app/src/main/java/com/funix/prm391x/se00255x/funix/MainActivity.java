@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                     /* by clearing mPlaylist & mPlaylistHolder here, refreshPlaylist()
                      * will update playlist as soon as re-connect to the internet
                      */
-                    mPlaylist.clear();
                     mPlaylistHolder.clear();
 
                     // mToggle will be null when onCreate is called
@@ -200,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshPlaylist() {
-        if (mPlaylistHolder.isEmpty() && mPlaylist.isEmpty()) {
+        if (mPlaylistHolder.isEmpty() && hasInternetAccess()) {
             getPlaylist();
         } else {
             // restore mPlaylist
