@@ -1,11 +1,16 @@
 package com.funix.prm391x.se00255x.funix;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -13,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,9 +50,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Context mCtx = this;
     private ArrayList<Video> mPlayList = new ArrayList<>();
+    private ListView mLsvVideo;
     private CustomAdapter mAdapter;
+    private View mHeader;
     private DatabaseMgr mDatabase;
+    private BroadcastReceiver mReceiver;
 
+    @SuppressLint("InflateParams")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("xDays - xTalks");
 
         mDatabase = new DatabaseMgr(this, getIntent().getExtras().getString("username"));
-        ListView mLsvVideo = (ListView) findViewById(R.id.list_view);
+        mLsvVideo = (ListView) findViewById(R.id.list_view);
         mAdapter = new CustomAdapter(mCtx, R.layout.list_row, R.id.txv_title, mPlayList);
         mLsvVideo.setAdapter(mAdapter);
         mLsvVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,6 +83,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mHeader = getLayoutInflater().inflate(R.layout.header_net_status, null);
+        mHeader.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.e("___receiver", "received");
+                int headerCount = mLsvVideo.getHeaderViewsCount();
+                boolean isConnected = hasInternetAccess();
+                // these conditions might look stupid but they're necessary
+                if (!isConnected && headerCount == 0) {
+                    mLsvVideo.addHeaderView(mHeader);
+                } else if (isConnected && headerCount > 0) {
+                    mLsvVideo.removeHeaderView(mHeader);
+                }
+            }
+        };
+        registerReceiver(mReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
         getPlaylist();
     }
 
@@ -122,6 +151,19 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
         alertBuilder.create().show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+    }
+
+    private boolean hasInternetAccess() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        Log.e("___isConnected", "" + (activeNetwork != null && activeNetwork.isConnectedOrConnecting()));
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     private void getHistory() {
