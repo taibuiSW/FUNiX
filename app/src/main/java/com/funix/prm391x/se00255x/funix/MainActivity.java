@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         // get database
         mDatabase = new DatabaseMgr(this, getIntent().getExtras().getString("username"));
+
+        // initializing ListView
         mLsvVideo = (ListView) findViewById(R.id.list_view);
         mAdapter = new CustomAdapter(mCtx, R.layout.list_row, R.id.txv_title, mPlaylist);
         mLsvVideo.setAdapter(mAdapter);
@@ -86,9 +88,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // create header (for network status)
         mHeader = getLayoutInflater().inflate(R.layout.header_net_status, null);
-        mHeader.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         mLsvVideo.addHeaderView(mHeader);
+
+        // receiver for detecting changes in network state
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
