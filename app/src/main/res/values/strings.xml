@@ -12,4 +12,5 @@
         numbers, underscore and at least 5 characters</string>
     <string name="thumbnail">thumbnail</string>
     <string name="history">History</string>
+    <string name="no_internet_access">No internet access</string>
 </resources>
