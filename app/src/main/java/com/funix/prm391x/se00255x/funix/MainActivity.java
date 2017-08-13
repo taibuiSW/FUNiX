@@ -18,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,12 +48,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String REQUEST = "https://goo.gl/L9V31Y";
 
     private Context mCtx = this;
-    private ArrayList<Video> mPlayList = new ArrayList<>();
+    private ArrayList<Video> mPlaylist = new ArrayList<>();
+    private ArrayList<Video> mPlaylistHolder = new ArrayList<>();
     private ListView mLsvVideo;
     private CustomAdapter mAdapter;
     private View mHeader;
     private DatabaseMgr mDatabase;
     private BroadcastReceiver mReceiver;
+    private MenuItem mToggle;
 
     @SuppressLint("InflateParams")
     @Override
@@ -63,14 +64,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("xDays - xTalks");
 
+        // get database
         mDatabase = new DatabaseMgr(this, getIntent().getExtras().getString("username"));
         mLsvVideo = (ListView) findViewById(R.id.list_view);
-        mAdapter = new CustomAdapter(mCtx, R.layout.list_row, R.id.txv_title, mPlayList);
+        mAdapter = new CustomAdapter(mCtx, R.layout.list_row, R.id.txv_title, mPlaylist);
         mLsvVideo.setAdapter(mAdapter);
         mLsvVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Video video = mPlayList.get(position);
+                Video video = mPlaylist.get(position);
                 mDatabase.modifyHistory(video);
                 Intent intent;
                 if (isYouTubeAppUsable()) {
@@ -85,50 +87,67 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mHeader = getLayoutInflater().inflate(R.layout.header_net_status, null);
-        mHeader.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+        mHeader.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+        mLsvVideo.addHeaderView(mHeader);
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.e("___receiver", "received");
                 int headerCount = mLsvVideo.getHeaderViewsCount();
                 boolean isConnected = hasInternetAccess();
+
                 // these conditions might look stupid but they're necessary
                 if (!isConnected && headerCount == 0) {
                     mLsvVideo.addHeaderView(mHeader);
                 } else if (isConnected && headerCount > 0) {
                     mLsvVideo.removeHeaderView(mHeader);
+
+                    /* by clearing mPlaylist & mPlaylistHolder here, refreshPlaylist()
+                     * will update playlist as soon as re-connect to the internet
+                     */
+                    mPlaylist.clear();
+                    mPlaylistHolder.clear();
+
+                    // mToggle will be null when onCreate is called
+                    if (mToggle == null) {
+                        getPlaylist();
+                    } else {
+                        switchToPlaylist();
+                    }
                 }
             }
         };
         registerReceiver(mReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-
-        getPlaylist();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_in_main, menu);
+        mToggle = menu.findItem(R.id.playlist_toggle);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.playlist_toggle:
-                if (getTitle().equals("History")) {
-                    //switch from 'History' to 'xDays - xTalks'
-                    setTitle("xDays - xTalks");
-                    item.setIcon(R.drawable.ic_history_24dp);
-                    getPlaylist();
-                } else {
-                    //switch from 'xDays - xTalks' to 'History'
-                    setTitle("History");
-                    item.setIcon(R.drawable.ic_view_list_24dp);
-                    getHistory();
-                }
-                break;
+        if (getTitle().equals("History")) {
+            switchToPlaylist();
+        } else {
+            switchToHistory();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // switching ListView form History mode to xTalks mode
+    private void switchToPlaylist() {
+        setTitle("xDays - xTalks");
+        mToggle.setIcon(R.drawable.ic_history_24dp);
+        refreshPlaylist();
+    }
+
+    // switching ListView form xTalks mode to History mode
+    private void switchToHistory() {
+        setTitle("History");
+        mToggle.setIcon(R.drawable.ic_view_list_24dp);
+        getHistory();
     }
 
     @Override
@@ -162,14 +181,28 @@ public class MainActivity extends AppCompatActivity {
     private boolean hasInternetAccess() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        Log.e("___isConnected", "" + (activeNetwork != null && activeNetwork.isConnectedOrConnecting()));
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     private void getHistory() {
-        mPlayList.clear();
-        mPlayList.addAll(mDatabase.getHistory());
-        mAdapter.notifyDataSetChanged();
+        // backup xTalks playlist
+        if (!mPlaylist.isEmpty()) {
+            mPlaylistHolder.clear();
+            mPlaylistHolder.addAll(mPlaylist);
+        }
+        // replace by history
+        mAdapter.clear();
+        mAdapter.addAll(mDatabase.getHistory());
+    }
+
+    private void refreshPlaylist() {
+        if (mPlaylistHolder.isEmpty() && mPlaylist.isEmpty()) {
+            getPlaylist();
+        } else {
+            // restore mPlaylist
+            mAdapter.clear();
+            mAdapter.addAll(mPlaylistHolder);
+        }
     }
 
     private void getPlaylist() {
@@ -179,14 +212,15 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        mPlayList.clear();
+                        mPlaylist.clear();
                         try {
                             JSONArray jArray = new JSONArray(response.getString("items"));
                             for (int i = 0; i < jArray.length(); i++) {
                                 JSONObject item = jArray.getJSONObject(i);
                                 JSONObject snippet = item.getJSONObject("snippet");
                                 JSONObject resourceId = snippet.getJSONObject("resourceId");
-                                mPlayList.add(new Video(snippet.getString("title"), resourceId.getString("videoId")));
+                                mPlaylist.add(new Video(snippet.getString("title"),
+                                        resourceId.getString("videoId")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -199,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        Toast.makeText(mCtx, "Unfortunately something went wrong :(", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mCtx, "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
         NetworkMgr.getInstance(mCtx).getRequestQueue().add(jsonObjectRequest);
@@ -242,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            Video video = mPlayList.get(position);
+            Video video = mPlaylist.get(position);
             holder.nivThumb.setImageUrl(Video.getThumbnailUrl(video.getId()),
                     NetworkMgr.getInstance(mCtx).getImageLoader());
             holder.txvTitle.setText(video.getTitle());
