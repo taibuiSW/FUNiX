@@ -12,8 +12,6 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -41,7 +39,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String API_KEY = "AIzaSyDGMQAc1eMvQhf24_EwRS6UvoDccA6Fk-w";
@@ -69,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         // initializing ListView
         mLsvVideo = (ListView) findViewById(R.id.list_view);
-        mAdapter = new CustomAdapter(mCtx, R.layout.list_row, R.id.txv_title, mPlaylist);
+        mAdapter = new CustomAdapter();
         mLsvVideo.setAdapter(mAdapter);
         mLsvVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -257,12 +254,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class CustomAdapter extends ArrayAdapter<Video> {
-        private LayoutInflater layoutInflater;
+        private LayoutInflater inflater;
 
-        CustomAdapter(@NonNull Context context, @LayoutRes int resource,
-                      @IdRes int textViewResourceId, @NonNull List<Video> objects) {
-            super(context, resource, textViewResourceId, objects);
-            layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        CustomAdapter() {
+            super(mCtx, R.layout.list_row, mPlaylist);
+            inflater = LayoutInflater.from(mCtx);
         }
 
         @NonNull
@@ -270,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = layoutInflater.inflate(R.layout.list_row, parent, false);
+                convertView = inflater.inflate(R.layout.list_row, parent, false);
                 holder = new ViewHolder();
                 holder.nivThumb = (NetworkImageView) convertView.findViewById(R.id.niv_thumb);
                 holder.txvTitle = (TextView) convertView.findViewById(R.id.txv_title);
