@@ -18,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.e("___receiver", "received");
                 int headerCount = mLsvVideo.getHeaderViewsCount();
                 boolean isConnected = hasInternetAccess();
                 // these conditions might look stupid but they're necessary
@@ -162,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean hasInternetAccess() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        Log.e("___isConnected", "" + (activeNetwork != null && activeNetwork.isConnectedOrConnecting()));
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
