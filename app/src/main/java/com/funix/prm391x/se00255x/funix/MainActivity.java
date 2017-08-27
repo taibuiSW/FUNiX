@@ -249,16 +249,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static class ViewHolder {
-        NetworkImageView nivThumb;
-        TextView txvTitle;
+        NetworkImageView mThumbnail;
+        TextView mTxvTitle;
     }
 
     private class CustomAdapter extends ArrayAdapter<Video> {
-        private LayoutInflater inflater;
+        LayoutInflater mInflater;
 
         CustomAdapter() {
             super(mCtx, R.layout.list_row, mPlaylist);
-            inflater = LayoutInflater.from(mCtx);
+            mInflater = LayoutInflater.from(mCtx);
         }
 
         @NonNull
@@ -266,19 +266,19 @@ public class MainActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = inflater.inflate(R.layout.list_row, parent, false);
+                convertView = mInflater.inflate(R.layout.list_row, parent, false);
                 holder = new ViewHolder();
-                holder.nivThumb = (NetworkImageView) convertView.findViewById(R.id.niv_thumb);
-                holder.txvTitle = (TextView) convertView.findViewById(R.id.txv_title);
+                holder.mThumbnail = (NetworkImageView) convertView.findViewById(R.id.niv_thumb);
+                holder.mTxvTitle = (TextView) convertView.findViewById(R.id.txv_title);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
             Video video = mPlaylist.get(position);
-            holder.nivThumb.setImageUrl(Video.getThumbnailUrl(video.getId()),
+            holder.mThumbnail.setImageUrl(Video.getThumbnailUrl(video.getId()),
                     NetworkMgr.getInstance(mCtx).getImageLoader());
-            holder.txvTitle.setText(video.getTitle());
+            holder.mTxvTitle.setText(video.getTitle());
             return convertView;
         }
     }
