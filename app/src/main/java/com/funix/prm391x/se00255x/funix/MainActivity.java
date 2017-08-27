@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String REQUEST = "https://goo.gl/L9V31Y";
 
     private Context mCtx = this;
+    private LayoutInflater mInflater;
     private ArrayList<Video> mPlaylist = new ArrayList<>();
     private ArrayList<Video> mPlaylistHolder = new ArrayList<>();
     private ListView mLsvVideo;
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("xDays - xTalks");
+
+        // get layout inflater for ListView and header
+        mInflater = LayoutInflater.from(mCtx);
 
         // get database
         mDatabase = new DatabaseMgr(this, getIntent().getExtras().getString("username"));
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // create header (for network status)
-        mHeader = getLayoutInflater().inflate(R.layout.header_net_status, null);
+        mHeader = mInflater.inflate(R.layout.header_net_status, null);
         mLsvVideo.addHeaderView(mHeader);
 
         // receiver for detecting changes in network state
@@ -254,11 +258,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class CustomAdapter extends ArrayAdapter<Video> {
-        LayoutInflater mInflater;
-
         CustomAdapter() {
             super(mCtx, R.layout.list_row, mPlaylist);
-            mInflater = LayoutInflater.from(mCtx);
         }
 
         @NonNull
