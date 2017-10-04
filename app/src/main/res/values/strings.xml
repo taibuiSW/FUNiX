@@ -9,7 +9,7 @@
     <string name="next">Next</string>
     <string name="rule">
         Username and password must only contain letters (a-z),
-        numbers, underscore and at least 5 characters</string>
+        numbers, underscore and at least 3 characters</string>
     <string name="thumbnail">thumbnail</string>
     <string name="history">History</string>
     <string name="no_internet_access">No internet access</string>

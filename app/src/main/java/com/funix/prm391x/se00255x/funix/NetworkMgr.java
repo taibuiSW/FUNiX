@@ -20,7 +20,7 @@ class NetworkMgr {
 
 
     private NetworkMgr(Context context) {
-        NetworkMgr.mCtx = context;
+        mCtx = context.getApplicationContext();
         this.mRequestQueue = getRequestQueue();
 
         mImageLoader = new ImageLoader(mRequestQueue,
@@ -48,7 +48,7 @@ class NetworkMgr {
 
     RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(mCtx);
         }
         return mRequestQueue;
     }

@@ -14,7 +14,7 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
     private static final String LOG_IN = "Log In";
     private static final String SIGN_UP = "Sign Up";
-    private static final String PATTERN = "[a-z_0-9]{5,}";
+    private static final String PATTERN = "[a-z_0-9]{3,}";
 
     private boolean mLogIn = true;
     private ConstraintLayout mLayout;
@@ -68,6 +68,10 @@ public class LoginActivity extends AppCompatActivity {
                     mToast.makeToast(getString(R.string.rule));
                     return;
                 }
+                /* SQLite won't accept a table name (username will be used as a table name)
+                 * starts with a number, adding "_" to username is a trick to solve this problem
+                 */
+                username = "_" + username;
                 int result = mDatabase.check(username, password);
                 if (mLogIn) {
                     switch (result) {
