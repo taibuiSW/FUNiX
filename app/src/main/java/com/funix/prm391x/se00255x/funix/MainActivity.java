@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -31,7 +30,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
-import com.google.android.youtube.player.YouTubeIntents;
+import com.google.android.youtube.player.YouTubeApiServiceUtil;
+import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
 import org.json.JSONArray;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static final String API_KEY = "AIzaSyDGMQAc1eMvQhf24_EwRS6UvoDccA6Fk-w";
-    private static final String REQUEST = "https://goo.gl/L9V31Y";
+    private static final String REQUEST_URL = "https://goo.gl/L9V31Y";
 
     private Context mCtx = this;
     private LayoutInflater mInflater;
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
     private void getPlaylist() {
         final ProgressDialog progressDialog = ProgressDialog.show(mCtx,
                 "Please wait...", "Checking playlist...");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(REQUEST, null,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(REQUEST_URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -244,12 +244,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     boolean isYouTubeAppUsable() {
-        try {
-            return getPackageManager().getApplicationInfo("com.google.android.youtube", 0).enabled
-                    && YouTubeIntents.getInstalledYouTubeVersionCode(mCtx) >= 4216;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
+        return YouTubeApiServiceUtil.isYouTubeApiServiceAvailable(mCtx)
+                .equals(YouTubeInitializationResult.SUCCESS);
     }
 
     private static class ViewHolder {
