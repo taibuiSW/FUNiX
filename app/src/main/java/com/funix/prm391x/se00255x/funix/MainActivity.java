@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView mLsvVideo;
     private CustomAdapter mAdapter;
     private View mHeader;
-    private DatabaseMgr mDatabase;
+//    private DatabaseMgr mDatabase;
     private BroadcastReceiver mReceiver;
     private MenuItem mToggle;
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mInflater = LayoutInflater.from(mCtx);
 
         // get database
-        mDatabase = new DatabaseMgr(this, getIntent().getExtras().getString("username"));
+        //mDatabase = new DatabaseMgr(this, getIntent().getExtras().getString("username"));
 
         // initializing ListView
         mLsvVideo = (ListView) findViewById(R.id.list_view);
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Video video = mPlaylist.get(position);
-                mDatabase.modifyHistory(video);
+                //mDatabase.modifyHistory(video);
                 Intent intent;
                 if (isYouTubeAppUsable()) {
                     intent = YouTubeStandalonePlayer
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // replace by history
         mAdapter.clear();
-        mAdapter.addAll(mDatabase.getHistory());
+        //mAdapter.addAll(mDatabase.getHistory());
     }
 
     private void refreshPlaylist() {
