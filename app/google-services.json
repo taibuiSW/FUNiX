@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "600862202019",
+    "firebase_url": "https://funix-asm4.firebaseio.com",
+    "project_id": "funix-asm4",
+    "storage_bucket": "funix-asm4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600862202019:android:91f661f6b1e45ea0",
+        "android_client_info": {
+          "package_name": "com.funix.prm391x.se00255x.funix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600862202019-5l9hgktgjlo1ohbrldv2v7i9q21usold.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.funix.prm391x.se00255x.funix",
+            "certificate_hash": "afe5b885a66221fb42c9a0d1a9543dd4b369aac1"
+          }
+        },
+        {
+          "client_id": "600862202019-cte5mc2luh07059pprgo3nccc4pohavr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRNjED65CZ3_lK9SeSq5qs4sWklkglGeQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600862202019-cte5mc2luh07059pprgo3nccc4pohavr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

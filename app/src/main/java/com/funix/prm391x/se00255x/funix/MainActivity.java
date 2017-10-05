@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(mCtx, LoginActivity.class));
+                                startActivity(new Intent(mCtx, AccountActivity.class));
                             }
                         });
         alertBuilder.create().show();
