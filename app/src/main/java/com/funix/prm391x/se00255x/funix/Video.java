@@ -1,23 +1,18 @@
 package com.funix.prm391x.se00255x.funix;
 
-class Video {
-    private String mTitle;
-    private String mId;
+public class Video {
+    public String mId;
+    public String mTitle;
+    public long mTime;
 
-    Video(String title, String id) {
+    public Video() {}
+
+    public Video(String title, String id) {
         this.mTitle = title;
         this.mId = id;
     }
 
-    static String getThumbnailUrl(String id) {
+    public static String getThumbnailUrl(String id) {
         return "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
-    }
-
-    String getTitle() {
-        return mTitle;
-    }
-
-    String getId() {
-        return mId;
     }
 }

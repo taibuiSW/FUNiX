@@ -1,5 +1,6 @@
 package com.funix.prm391x.se00255x.funix;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,7 +28,9 @@ public class FragmentLogin extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         mEdtEmail = (EditText) view.findViewById(R.id.edt_email);
+        mEdtEmail.setText("silencewalker94@gmail.com");
         mEdtPassword = (EditText) view.findViewById(R.id.edt_password);
+        mEdtPassword.setText("sims0dep");
         mBtnLogin = (Button) view.findViewById(R.id.btn_log_in);
         mAuth = FirebaseAuth.getInstance();
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +51,7 @@ public class FragmentLogin extends Fragment {
                                     }
                                 }
                                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getContext(), MainActivity.class));
                             }
                         });
             }

@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,39 +52,48 @@ public class MainActivity extends AppCompatActivity {
     private ListView mLsvVideo;
     private CustomAdapter mAdapter;
     private View mHeader;
-//    private DatabaseMgr mDatabase;
+    private DatabaseMgr mDatabase;
     private BroadcastReceiver mReceiver;
     private MenuItem mToggle;
+    private Bundle mSavedState;
 
     @SuppressLint("InflateParams")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mSavedState = savedInstanceState;
+        Log.e("___", "onCreate");
+
         setContentView(R.layout.activity_main);
         setTitle("xDays - xTalks");
 
         // get layout inflater for ListView and header
         mInflater = LayoutInflater.from(mCtx);
 
-        // get database
-        //mDatabase = new DatabaseMgr(this, getIntent().getExtras().getString("username"));
+        // get mDatabase
+        mDatabase = DatabaseMgr.getInstance();
 
         // initializing ListView
         mLsvVideo = (ListView) findViewById(R.id.list_view);
         mAdapter = new CustomAdapter();
+
         mLsvVideo.setAdapter(mAdapter);
         mLsvVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!hasInternetAccess()) {
+                    position -= 1;
+                }
                 Video video = mPlaylist.get(position);
-                //mDatabase.modifyHistory(video);
+                mDatabase.modifyHistory(video);
                 Intent intent;
                 if (isYouTubeAppUsable()) {
                     intent = YouTubeStandalonePlayer
-                            .createVideoIntent((Activity) mCtx, API_KEY, video.getId());
+                            .createVideoIntent((Activity) mCtx, API_KEY, video.mId);
                 } else {
                     intent = new Intent(mCtx, WebViewActivity.class);
-                    intent.putExtra("id", video.getId());
+                    intent.putExtra("id", video.mId);
                 }
                 startActivity(intent);
             }
@@ -121,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         registerReceiver(mReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
     }
 
     @Override
@@ -132,11 +143,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (getTitle().equals("History")) {
-            switchToPlaylist();
+        if (item.getItemId() == R.id.playlist_toggle) {
+            if (getTitle().equals("History")) {
+                switchToPlaylist();
+            } else {
+                switchToHistory();
+            }
         } else {
-            switchToHistory();
+            for (Video v : mPlaylist) {
+                Log.e("___" + v.mTime, v.mTitle);
+            }
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -179,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("___onDestroy", "destroyed");
         unregisterReceiver(mReceiver);
     }
 
@@ -196,7 +215,8 @@ public class MainActivity extends AppCompatActivity {
         }
         // replace by history
         mAdapter.clear();
-        //mAdapter.addAll(mDatabase.getHistory());
+        mDatabase.getHistory(mAdapter);
+//        mAdapter.addAll();
     }
 
     private void refreshPlaylist() {
@@ -229,6 +249,14 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        if (mSavedState != null
+                                && mSavedState.containsKey("state")) {
+                            Log.e("___ok", "ok");
+                            mLsvVideo.onRestoreInstanceState(mSavedState
+                                    .getParcelable("state"));
+                        }
+
                         mAdapter.notifyDataSetChanged();
                         progressDialog.dismiss();
                     }
@@ -253,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
         TextView mTxvTitle;
     }
 
-    private class CustomAdapter extends ArrayAdapter<Video> {
+    class CustomAdapter extends ArrayAdapter<Video> {
         CustomAdapter() {
             super(mCtx, R.layout.list_row, mPlaylist);
         }
@@ -273,10 +301,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
             Video video = mPlaylist.get(position);
-            holder.mThumbnail.setImageUrl(Video.getThumbnailUrl(video.getId()),
+            holder.mThumbnail.setImageUrl(Video.getThumbnailUrl(video.mId),
                     NetworkMgr.getInstance(mCtx).getImageLoader());
-            holder.mTxvTitle.setText(video.getTitle());
+            holder.mTxvTitle.setText(video.mTitle);
             return convertView;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.e("___save state", "saving state");
+        outState.putParcelable("state", mLsvVideo.onSaveInstanceState());
     }
 }
