@@ -12,9 +12,11 @@ public class WebViewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_web_view);
+
         String videoId = getIntent().getStringExtra("id");
         WebView wbvVideo = (WebView) findViewById(R.id.wbv_video);
         wbvVideo.getSettings().setJavaScriptEnabled(true);
