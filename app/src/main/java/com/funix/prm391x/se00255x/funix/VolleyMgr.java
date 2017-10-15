@@ -9,23 +9,23 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
-class NetworkMgr {
+class VolleyMgr {
 
     @SuppressLint("StaticFieldLeak")
-    private static NetworkMgr mInstance;
+    private static VolleyMgr mInstance;
     @SuppressLint("StaticFieldLeak")
     private static Context mCtx;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
 
 
-    private NetworkMgr(Context context) {
+    private VolleyMgr(Context context) {
         mCtx = context.getApplicationContext();
         this.mRequestQueue = getRequestQueue();
 
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
-                    private final LruCache<String, Bitmap> cache = new LruCache<>(20);
+                    private final LruCache<String, Bitmap> cache = new LruCache<>((int) Math.pow(2, 40)); // 1MiB
 
                     @Override
                     public Bitmap getBitmap(String url) {
@@ -39,9 +39,9 @@ class NetworkMgr {
                 });
     }
 
-    static synchronized NetworkMgr getInstance(Context context) {
+    static synchronized VolleyMgr getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new NetworkMgr(context);
+            mInstance = new VolleyMgr(context);
         }
         return mInstance;
     }

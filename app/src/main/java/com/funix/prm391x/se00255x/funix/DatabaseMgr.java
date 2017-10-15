@@ -1,22 +1,21 @@
 package com.funix.prm391x.se00255x.funix;
 
-import android.util.Log;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.Calendar;
 
 public class DatabaseMgr {
-    private static final String ROOT_HISTORY = "history";
+    private static String PLAYLIST = "playlist";
+    private static String HISTORY  = "history";
 
     private static DatabaseMgr mInstance;
+    private DatabaseReference mRefPlaylist;
+    private DatabaseReference mRefHistory;
 
-    private FirebaseDatabase mFireDB;
-    private DatabaseReference mRef;
 
     public static DatabaseMgr getInstance() {
         if (mInstance == null) {
@@ -26,25 +25,29 @@ public class DatabaseMgr {
     }
 
     private DatabaseMgr() {
-        mFireDB = FirebaseDatabase.getInstance();
+        FirebaseDatabase mFireDB = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            Log.e("___userId", user.getUid());
-            mRef = mFireDB.getReference(ROOT_HISTORY).child(user.getUid());
+            DatabaseReference ref = mFireDB.getReference(user.getUid());
+            mRefPlaylist = ref.child(PLAYLIST);
+            mRefHistory  = ref.child(HISTORY);
         }
     }
 
-    public void modifyHistory(Video video) {
-        video.mTime = 9999999999999L - Calendar.getInstance().getTimeInMillis();
-        mRef.child(video.mId).setValue(video);
+    public void addToPlaylist(int seq, Video video) {
+        mRefPlaylist.child("" + seq).setValue(video);
     }
 
-    public void getHistory(final MainActivity.CustomAdapter adapter) {
-        mRef.orderByChild("mTime").addChildEventListener(new ChildAddedListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                adapter.add(dataSnapshot.getValue(Video.class));
-            }
-        });
+    public Query getPlaylist() {
+        return mRefPlaylist;
+    }
+
+    public void modifyHistory(Video video) {
+        video.mTime = 9_999_999_999_999L - Calendar.getInstance().getTimeInMillis();
+        mRefHistory.child(video.mId).setValue(video);
+    }
+
+    public Query getHistory() {
+        return mRefHistory.orderByChild("mTime");
     }
 }

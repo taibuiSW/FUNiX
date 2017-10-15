@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,8 +30,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
-import com.google.android.youtube.player.YouTubeApiServiceUtil;
-import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 
 import org.json.JSONArray;
@@ -82,13 +79,13 @@ public class MainActivity extends AppCompatActivity {
         mLsvVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!hasInternetAccess()) {
+                if (!Utils.hasInternetAccess(mCtx)) {
                     position -= 1;
                 }
                 Video video = mPlaylist.get(position);
                 mDatabase.modifyHistory(video);
                 Intent intent;
-                if (isYouTubeAppUsable()) {
+                if (Utils.isYouTubeAppUsable(mCtx)) {
                     intent = YouTubeStandalonePlayer
                             .createVideoIntent((Activity) mCtx, API_KEY, video.mId);
                 } else {
@@ -100,15 +97,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // create header (for network status)
-        mHeader = mInflater.inflate(R.layout.header_net_status, null);
-        mLsvVideo.addHeaderView(mHeader);
+//        mHeader = mInflater.inflate(R.layout.header_net_status, null);
+//        mLsvVideo.addHeaderView(mHeader);
 
         // receiver for detecting changes in network state
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 int headerCount = mLsvVideo.getHeaderViewsCount();
-                boolean isConnected = hasInternetAccess();
+                boolean isConnected = Utils.hasInternetAccess(mCtx);
 
                 // these conditions might look stupid but they're necessary
                 if (!isConnected && headerCount == 0) {
@@ -197,14 +194,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("___onDestroy", "destroyed");
         unregisterReceiver(mReceiver);
-    }
-
-    private boolean hasInternetAccess() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     private void getHistory() {
@@ -215,12 +205,12 @@ public class MainActivity extends AppCompatActivity {
         }
         // replace by history
         mAdapter.clear();
-        mDatabase.getHistory(mAdapter);
+//        mDatabase.getHistory(mAdapter);
 //        mAdapter.addAll();
     }
 
     private void refreshPlaylist() {
-        if (mPlaylistHolder.isEmpty() && hasInternetAccess()) {
+        if (mPlaylistHolder.isEmpty() && Utils.hasInternetAccess(mCtx)) {
             getPlaylist();
         } else {
             // restore mPlaylist
@@ -252,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
 
                         if (mSavedState != null
                                 && mSavedState.containsKey("state")) {
-                            Log.e("___ok", "ok");
                             mLsvVideo.onRestoreInstanceState(mSavedState
                                     .getParcelable("state"));
                         }
@@ -268,12 +257,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(mCtx, "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
                 });
-        NetworkMgr.getInstance(mCtx).getRequestQueue().add(jsonObjectRequest);
-    }
-
-    boolean isYouTubeAppUsable() {
-        return YouTubeApiServiceUtil.isYouTubeApiServiceAvailable(mCtx)
-                .equals(YouTubeInitializationResult.SUCCESS);
+        VolleyMgr.getInstance(mCtx).getRequestQueue().add(jsonObjectRequest);
     }
 
     private static class ViewHolder {
@@ -302,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
 
             Video video = mPlaylist.get(position);
             holder.mThumbnail.setImageUrl(Video.getThumbnailUrl(video.mId),
-                    NetworkMgr.getInstance(mCtx).getImageLoader());
+                    VolleyMgr.getInstance(mCtx).getImageLoader());
             holder.mTxvTitle.setText(video.mTitle);
             return convertView;
         }

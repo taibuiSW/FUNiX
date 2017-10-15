@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         // finish LoginActivity
         finish();
         // start MainActivity
-        startActivity(new Intent(mCtx,  MainActivity.class));
+        startActivity(new Intent(mCtx, AccountActivity.class));
     }
 
 }
