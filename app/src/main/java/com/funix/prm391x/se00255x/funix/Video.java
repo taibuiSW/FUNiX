@@ -13,6 +13,6 @@ public class Video {
     }
 
     public static String getThumbnailUrl(String id) {
-        return "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
+        return "https://img.youtube.com/vi/" + id + "/mqdefault.jpg";
     }
 }
