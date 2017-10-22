@@ -18,14 +18,19 @@ class VolleyMgr {
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
 
-
     private VolleyMgr(Context context) {
         mCtx = context.getApplicationContext();
-        this.mRequestQueue = getRequestQueue();
+        mRequestQueue = getRequestQueue();
 
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
-                    private final LruCache<String, Bitmap> cache = new LruCache<>((int) Math.pow(2, 40)); // 1MiB
+                    private final LruCache<String, Bitmap> cache = new LruCache<>(calcCacheSize());
+
+                    // using 12.5% of maxMemory, each image'size is around 256KiB
+                    private int calcCacheSize() {
+                        int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+                        return maxMemory / 8 / 256;
+                    }
 
                     @Override
                     public Bitmap getBitmap(String url) {
@@ -39,21 +44,21 @@ class VolleyMgr {
                 });
     }
 
-    static synchronized VolleyMgr getInstance(Context context) {
+    public static synchronized VolleyMgr getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new VolleyMgr(context);
         }
         return mInstance;
     }
 
-    RequestQueue getRequestQueue() {
+    public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(mCtx);
         }
         return mRequestQueue;
     }
 
-    ImageLoader getImageLoader() {
+    public ImageLoader getImageLoader() {
         return mImageLoader;
     }
 

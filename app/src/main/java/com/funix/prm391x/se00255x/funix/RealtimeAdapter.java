@@ -9,22 +9,23 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.Query;
 
-public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdapter.VHolder> {
+public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdapter.VideoViewHolder> {
     private Context mCtx;
     private DatabaseMgr dbMgr;
 
     public RealtimeAdapter(Context ctx, Query query) {
-        super(Video.class, R.layout.list_row, VHolder.class, query);
+        super(Video.class, R.layout.item_row, VideoViewHolder.class, query);
         mCtx = ctx;
         dbMgr = DatabaseMgr.getInstance();
     }
 
     @Override
-    protected void populateViewHolder(VHolder holder, final Video video, int position) {
-        holder.mThumbnail.setImageUrl(Video.getThumbnailUrl(video.mId),
+    protected void populateViewHolder(VideoViewHolder holder, final Video video, int position) {
+        VideoViewHolder vHolder = (VideoViewHolder) holder;
+        vHolder.mThumbnail.setImageUrl(Video.getThumbnailUrl(video.mId),
                 VolleyMgr.getInstance(mCtx).getImageLoader());
-        holder.mTxvTitle.setText(video.mTitle);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        vHolder.mTxvTitle.setText(video.mTitle);
+        vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dbMgr.modifyHistory(video);
@@ -33,11 +34,11 @@ public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdap
         });
     }
 
-    public static class VHolder extends RecyclerView.ViewHolder {
+    public static class VideoViewHolder extends RecyclerView.ViewHolder {
         NetworkImageView mThumbnail;
         TextView mTxvTitle;
 
-        public VHolder(View itemView) {
+        public VideoViewHolder(View itemView) {
             super(itemView);
             mThumbnail = (NetworkImageView) itemView.findViewById(R.id.niv_thumb);
             mTxvTitle = (TextView) itemView.findViewById(R.id.txv_title);

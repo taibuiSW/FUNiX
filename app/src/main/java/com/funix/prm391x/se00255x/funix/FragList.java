@@ -16,6 +16,7 @@ public class FragList extends Fragment {
     private RecyclerView mRecycler;
     private RealtimeAdapter mAdapter;
     private Query mQuery;
+    private RecyclerView.OnScrollListener mOnScrollListener;
 
     @Nullable
     @Override
@@ -23,14 +24,21 @@ public class FragList extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mLayout = inflater.inflate(R.layout.frag_list, container, false);
         mRecycler = (RecyclerView) mLayout.findViewById(R.id.recycler_list);
+        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new RealtimeAdapter(getContext(), mQuery);
         mRecycler.setAdapter(mAdapter);
-        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (mOnScrollListener != null) {
+            mRecycler.addOnScrollListener(mOnScrollListener);
+        }
         return mLayout;
+    }
+
+    public void addOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
+        mOnScrollListener = onScrollListener;
     }
 
     public void setQuery(Query query) {
         mQuery = query;
     }
-
 }

@@ -38,13 +38,17 @@ public class DatabaseMgr {
         mRefPlaylist.child("" + seq).setValue(video);
     }
 
-    public Query getPlaylist() {
-        return mRefPlaylist;
+    public void clearPlaylist() {
+        mRefPlaylist.removeValue();
     }
 
     public void modifyHistory(Video video) {
         video.mTime = 9_999_999_999_999L - Calendar.getInstance().getTimeInMillis();
         mRefHistory.child(video.mId).setValue(video);
+    }
+
+    public Query getPlaylist() {
+        return mRefPlaylist;
     }
 
     public Query getHistory() {

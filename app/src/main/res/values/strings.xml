@@ -1,20 +1,10 @@
 <resources>
     <string name="app_name">FUNiX</string>
-    <string name="funix_logo">FUNiX logo</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="confirm_password">Confirm password</string>
-    <string name="sign_up">Sign Up</string>
     <string name="log_in">Log In</string>
-    <string name="next">Next</string>
-    <string name="rule">
-        Username and password must only contain letters (a-z),
-        numbers, underscore and at least 3 characters</string>
     <string name="thumbnail">thumbnail</string>
     <string name="history">History</string>
     <string name="no_internet_access">No internet access</string>
-    <string name="title_activity_account">AccountActivity</string>
-    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="facebook_app_id">133612704030505</string>
     <string name="fb_login_protocol_scheme">fb133612704030505</string>
 </resources>
