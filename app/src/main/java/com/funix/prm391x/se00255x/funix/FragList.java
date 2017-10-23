@@ -1,22 +1,28 @@
 package com.funix.prm391x.se00255x.funix;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.database.Query;
 
+import static android.support.v7.widget.RecyclerView.OnScrollListener;
+
 public class FragList extends Fragment {
     private View mLayout;
     private RecyclerView mRecycler;
     private RealtimeAdapter mAdapter;
     private Query mQuery;
-    private RecyclerView.OnScrollListener mOnScrollListener;
+    private OnScrollListener mOnScrollListener;
+    private LinearLayoutManager mLinearLayoutMgr;
+    private StaggeredGridLayoutManager mStaggeredGridLayoutMgr;
 
     @Nullable
     @Override
@@ -24,7 +30,12 @@ public class FragList extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mLayout = inflater.inflate(R.layout.frag_list, container, false);
         mRecycler = (RecyclerView) mLayout.findViewById(R.id.recycler_list);
-        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mLinearLayoutMgr = new LinearLayoutManager(getActivity());
+        mStaggeredGridLayoutMgr = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
+        setLayoutMgr(getActivity().getResources().getConfiguration().screenWidthDp);
+
         mAdapter = new RealtimeAdapter(getContext(), mQuery);
         mRecycler.setAdapter(mAdapter);
 
@@ -34,7 +45,21 @@ public class FragList extends Fragment {
         return mLayout;
     }
 
-    public void addOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setLayoutMgr(newConfig.screenWidthDp);
+    }
+
+    private void setLayoutMgr(int screenWidthDp) {
+        if (screenWidthDp > 480) {
+            mRecycler.setLayoutManager(mStaggeredGridLayoutMgr);
+        } else {
+            mRecycler.setLayoutManager(mLinearLayoutMgr);
+        }
+    }
+
+    public void addOnScrollListener(OnScrollListener onScrollListener) {
         mOnScrollListener = onScrollListener;
     }
 

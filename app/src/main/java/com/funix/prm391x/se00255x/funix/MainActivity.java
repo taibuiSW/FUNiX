@@ -14,9 +14,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import static android.support.v7.widget.RecyclerView.LayoutManager;
+import static android.support.v7.widget.RecyclerView.OnScrollListener;
 
 public class MainActivity extends AppCompatActivity {
     private Context mCtx = this;
@@ -24,18 +28,11 @@ public class MainActivity extends AppCompatActivity {
     private Fetcher mFetcher;
 
     private boolean mIsLoading;
-    private int visibleThreshold = 10;
-    private int mLastVisibleItem;
-    private int mTotalItemCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-//        Log.e("___getMemoryClass", "" + am.getMemoryClass());
-//        Log.e("___maxMemory     ", "" + Runtime.getRuntime().maxMemory());
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -99,24 +96,43 @@ public class MainActivity extends AppCompatActivity {
             playlist.setQuery(dbMgr.getPlaylist());
             history.setQuery(dbMgr.getHistory());
 
-            playlist.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            playlist.addOnScrollListener(getOnScrollPreloader());
+        }
+
+        private OnScrollListener getOnScrollPreloader() {
+            return new OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
-                    LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    mTotalItemCount = linearLayoutManager.getItemCount();
-                    mLastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                    if (!mIsLoading && mTotalItemCount <= (mLastVisibleItem + visibleThreshold)) {
-                        mFetcher.getPlaylist(new Fetcher.OnFetchCompletedListener() {
-                            @Override
-                            public void onFetchCompleted() {
-                                mIsLoading = false;
-                            }
-                        });
-                        mIsLoading = true;
+                    preload(recyclerView);
+                }
+            };
+        }
+
+        private void preload(RecyclerView recyclerView) {
+            LayoutManager layoutMgr = recyclerView.getLayoutManager();
+            int totalItemCount = layoutMgr.getItemCount();
+            int lastVisibleItem = 0;
+            if (layoutMgr instanceof LinearLayoutManager) {
+                lastVisibleItem = ((LinearLayoutManager) layoutMgr).findLastVisibleItemPosition();
+            } else {
+                int[] lastVisibleItems = ((StaggeredGridLayoutManager) layoutMgr).findLastVisibleItemPositions(null);
+                for (int i : lastVisibleItems) {
+                    if (i > lastVisibleItem) {
+                        lastVisibleItem = i;
                     }
                 }
-            });
+            }
+            int visibleThreshold = 10;
+            if (!mIsLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                mFetcher.getPlaylist(new Fetcher.OnFetchCompletedListener() {
+                    @Override
+                    public void onFetchCompleted() {
+                        mIsLoading = false;
+                    }
+                });
+                mIsLoading = true;
+            }
         }
 
         @Override

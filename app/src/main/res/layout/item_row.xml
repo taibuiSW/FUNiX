@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
@@ -19,11 +20,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.android.volley.toolbox.NetworkImageView
+            <ImageView
                 android:id="@+id/niv_thumb"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:scaleType="fitXY" />
+                android:layout_height="190dp" />
 
             <TextView
                 android:id="@+id/txv_title"
