@@ -52,11 +52,9 @@ public class FragList extends Fragment {
     }
 
     private void setLayoutMgr(int screenWidthDp) {
-        if (screenWidthDp > 480) {
-            mRecycler.setLayoutManager(mStaggeredGridLayoutMgr);
-        } else {
-            mRecycler.setLayoutManager(mLinearLayoutMgr);
-        }
+        mRecycler.setLayoutManager(screenWidthDp > 480
+                ? mStaggeredGridLayoutMgr
+                : mLinearLayoutMgr);
     }
 
     public void addOnScrollListener(OnScrollListener onScrollListener) {

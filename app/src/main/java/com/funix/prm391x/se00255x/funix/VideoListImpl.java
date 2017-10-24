@@ -47,6 +47,6 @@ public class VideoListImpl implements ViewMvcVideoList {
 
     @Override
     public void indicateNetworkStatus(boolean isConnected) {
-        mNetworkIndicator.setVisibility(isConnected ? INVISIBLE : VISIBLE);
+        mNetworkIndicator.setVisibility(isConnected ? GONE : VISIBLE);
     }
 }
