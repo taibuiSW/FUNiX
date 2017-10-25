@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingRight="10dp"
-    android:paddingLeft="10dp"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp"
+    android:paddingRight="8dp"
+    android:paddingLeft="8dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -20,19 +21,27 @@
             android:orientation="vertical"
             tools:ignore="UseCompoundDrawables">
 
+            <!-- Thumbnail
+             * src=place_holder is required to expand ImageView on create -->
             <ImageView
                 android:id="@+id/niv_thumb"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/place_holder"
                 tools:ignore="ContentDescription" />
 
+            <!-- Title -->
             <TextView
                 android:id="@+id/txv_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:textAlignment="center"
-                android:padding="5dp"
+                android:gravity="center"
+                android:padding="4dp"
                 android:textColor="@android:color/black"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textSize="16sp" />
 
         </LinearLayout>

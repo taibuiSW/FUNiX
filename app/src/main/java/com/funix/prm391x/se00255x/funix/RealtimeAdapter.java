@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.Query;
 
@@ -23,8 +22,11 @@ public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdap
     @Override
     protected void populateViewHolder(VideoViewHolder holder, final Video video, int position) {
         VideoViewHolder vHolder = (VideoViewHolder) holder;
-        Glide.with(mCtx).load(Video.getThumbnailUrl(video.mId)).into(vHolder.mThumbnail);
-        vHolder.mTxvTitle.setText(video.mTitle);
+        GlideApp.with(mCtx)
+                .load(video.getThumbnailUrl())
+                .placeholder(R.drawable.place_holder)
+                .into(vHolder.mThumbnail);
+        vHolder.mTxvTitle.setText(video.getTitle());
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

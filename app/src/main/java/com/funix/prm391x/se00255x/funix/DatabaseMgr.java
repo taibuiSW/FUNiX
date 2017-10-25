@@ -9,8 +9,8 @@ import com.google.firebase.database.Query;
 import java.util.Calendar;
 
 public class DatabaseMgr {
-    private static String PLAYLIST = "playlist";
-    private static String HISTORY  = "history";
+    private static final String PLAYLIST = "playlist";
+    private static final String HISTORY  = "history";
 
     private static DatabaseMgr mInstance;
     private DatabaseReference mRefPlaylist;
@@ -43,8 +43,8 @@ public class DatabaseMgr {
     }
 
     public void modifyHistory(Video video) {
-        video.mTime = 9_999_999_999_999L - Calendar.getInstance().getTimeInMillis();
-        mRefHistory.child(video.mId).setValue(video);
+        video.setTime(9_999_999_999_999L - Calendar.getInstance().getTimeInMillis());
+        mRefHistory.child(video.getId()).setValue(video);
     }
 
     public Query getPlaylist() {

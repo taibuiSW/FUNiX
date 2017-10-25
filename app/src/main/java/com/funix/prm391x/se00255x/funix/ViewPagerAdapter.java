@@ -6,14 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 
-import static android.support.v7.widget.RecyclerView.*;
+import static android.support.v7.widget.RecyclerView.OnScrollListener;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    FragList playlist = new FragList();
-    FragList history = new FragList();
-    FragList[] tabs = {playlist, history};
+    ListFragment playlist = new ListFragment();
+    ListFragment history = new ListFragment();
+    ListFragment[] tabs = {playlist, history};
     String[] titles = {"Playlist", "History"};
     private boolean mIsLoading;
     private Fetcher mFetcher;
@@ -51,19 +50,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     private void preload(RecyclerView recyclerView) {
-        LayoutManager layoutMgr = recyclerView.getLayoutManager();
+        LinearLayoutManager layoutMgr = (LinearLayoutManager) recyclerView.getLayoutManager();
         int totalItemCount = layoutMgr.getItemCount();
-        int lastVisibleItem = 0;
-        if (layoutMgr instanceof LinearLayoutManager) {
-            lastVisibleItem = ((LinearLayoutManager) layoutMgr).findLastVisibleItemPosition();
-        } else {
-            int[] lastVisibleItems = ((StaggeredGridLayoutManager) layoutMgr).findLastVisibleItemPositions(null);
-            for (int i : lastVisibleItems) {
-                if (i > lastVisibleItem) {
-                    lastVisibleItem = i;
-                }
-            }
-        }
+        int lastVisibleItem = layoutMgr.findLastVisibleItemPosition();
         int visibleThreshold = 10;
         if (!mIsLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
             mFetcher.getPlaylist(new Fetcher.OnFetchCompletedListener() {

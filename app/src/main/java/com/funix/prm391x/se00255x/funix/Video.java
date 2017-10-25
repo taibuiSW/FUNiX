@@ -1,18 +1,44 @@
 package com.funix.prm391x.se00255x.funix;
 
 public class Video {
-    public String mId;
-    public String mTitle;
-    public long mTime;
+    private static final String THUMB_URL = "https://img.youtube.com/vi/%s/maxresdefault.jpg";
+
+    private String mId;
+    private String mTitle;
+    private long mTime;
 
     public Video() {}
 
     public Video(String title, String id) {
-        this.mTitle = title;
-        this.mId = id;
+        mTitle = title;
+        mId = id;
     }
 
-    public static String getThumbnailUrl(String id) {
-        return "https://img.youtube.com/vi/" + id + "/maxresdefault.jpg";
+    public String getThumbnailUrl() {
+        return String.format(THUMB_URL, mId);
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public long getTime() {
+        return mTime;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+
+    public void setTime(long time) {
+        mTime = time;
     }
 }

@@ -26,10 +26,10 @@ public class Utils {
         Intent intent;
         if (isYouTubeAppUsable(ctx)) {
             intent = YouTubeStandalonePlayer
-                    .createVideoIntent((Activity) ctx, Const.API_KEY, video.mId);
+                    .createVideoIntent((Activity) ctx, Const.API_KEY, video.getId());
         } else {
             intent = new Intent(ctx, WebViewActivity.class);
-            intent.putExtra("id", video.mId);
+            intent.putExtra("id", video.getId());
         }
         ctx.startActivity(intent);
     }
