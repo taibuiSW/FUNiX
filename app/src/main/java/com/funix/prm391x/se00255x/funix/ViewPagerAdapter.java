@@ -10,10 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import static android.support.v7.widget.RecyclerView.OnScrollListener;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    ListFragment playlist = new ListFragment();
-    ListFragment history = new ListFragment();
-    ListFragment[] tabs = {playlist, history};
-    String[] titles = {"Playlist", "History"};
+    private ListFragment playlist = new ListFragment();
+    private ListFragment history = new ListFragment();
+    private ListFragment[] tabs = {playlist, history};
+    private CharSequence[] titles = {"Playlist", "History"};
     private boolean mIsLoading;
     private Fetcher mFetcher;
     private Context mCtx;
@@ -79,4 +79,5 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return titles[position];
     }
+    
 }

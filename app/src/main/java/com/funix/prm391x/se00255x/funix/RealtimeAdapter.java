@@ -30,7 +30,7 @@ public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdap
         vHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbMgr.modifyHistory(video);
+                dbMgr.updateHistory(video);
                 Utils.startYoutubePlayer(mCtx, video);
             }
         });

@@ -42,7 +42,7 @@ public class DatabaseMgr {
         mRefPlaylist.removeValue();
     }
 
-    public void modifyHistory(Video video) {
+    public void updateHistory(Video video) {
         video.setTime(9_999_999_999_999L - Calendar.getInstance().getTimeInMillis());
         mRefHistory.child(video.getId()).setValue(video);
     }
