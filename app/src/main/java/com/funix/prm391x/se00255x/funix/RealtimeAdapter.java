@@ -46,4 +46,6 @@ public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdap
             mTxvTitle = (TextView) itemView.findViewById(R.id.txv_title);
         }
     }
+
+
 }

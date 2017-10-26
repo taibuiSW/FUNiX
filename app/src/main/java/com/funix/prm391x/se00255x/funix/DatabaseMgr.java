@@ -47,11 +47,13 @@ public class DatabaseMgr {
         mRefHistory.child(video.getId()).setValue(video);
     }
 
-    public Query getPlaylist() {
-        return mRefPlaylist;
-    }
-
-    public Query getHistory() {
-        return mRefHistory.orderByChild("mTime");
+    public Query getQuery(String keyEnum) {
+        switch (keyEnum.toLowerCase()) {
+            case HISTORY:
+                return mRefHistory.orderByChild("mTime");
+            case PLAYLIST:
+                return mRefPlaylist;
+        }
+        return null;
     }
 }

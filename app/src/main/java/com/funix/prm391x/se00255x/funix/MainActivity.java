@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         };
 
         registerReceiver(mReceiver, new IntentFilter(CONNECTIVITY_ACTION));
+
+        Fetcher.getInstance().getPlaylist(this);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.funix.prm391x.se00255x.funix;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -17,39 +18,42 @@ public class Fetcher {
     private static final String PART_3 = "&playlistId=";
     private static final String PART_4 = "&fields=items(snippet(resourceId%2FvideoId%2Ctitle))%2CnextPageToken&key=";
 
-    private Context mCtx;
+    private static Fetcher mInstance;
+
     private DatabaseMgr mDbMgr;
     //
     private String mPlayListId;
     private String mNextToken;
+    private boolean mIsRunning;
     private boolean mEndOfList;
     private int mMaxResults;
     private int mCursor;
 
-    public Fetcher(Context ctx) {
-        mCtx = ctx.getApplicationContext();
-        mDbMgr = DatabaseMgr.getInstance();
-        mDbMgr.clearPlaylist();
+    public static Fetcher getInstance() {
+        if (mInstance == null) {
+            mInstance = new Fetcher();
+        }
+        return mInstance;
     }
 
-    public void initialize() {
+    private Fetcher() {
+        mDbMgr = DatabaseMgr.getInstance();
+        mDbMgr.clearPlaylist();
         mPlayListId = "UUMOgdURr7d8pOVlc-alkfRg";
         mMaxResults = 20;
     }
 
-    public interface OnFetchCompletedListener {
-        void onFetchCompleted();
-    }
-
-    public String getLink() {
+    private String getLink() {
         return PART_1 + mMaxResults +
                 (mNextToken == null ? "" : PART_2 + mNextToken) +
                 PART_3 + mPlayListId +
                 PART_4 + Const.API_KEY;
     }
 
-    public void getPlaylist(final OnFetchCompletedListener onFetchCompletedListener) {
-        if (mEndOfList) return;
+    public synchronized void getPlaylist(final Context ctx) {
+        if (mEndOfList || mIsRunning) return;
+        mIsRunning = true;
+        Log.e("___", "getting Playlist");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(getLink(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -75,20 +79,16 @@ public class Fetcher {
                             e.printStackTrace();
                         }
 
-                        if (onFetchCompletedListener != null) {
-                            onFetchCompletedListener.onFetchCompleted();
-                        }
+                        mIsRunning = false;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(mCtx, error.getMessage(), Toast.LENGTH_SHORT).show();
-                        if (onFetchCompletedListener != null) {
-                            onFetchCompletedListener.onFetchCompleted();
-                        }
+                        Toast.makeText(ctx, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        mIsRunning = false;
                     }
                 });
-        VolleyMgr.getInstance(mCtx).getRequestQueue().add(jsonObjectRequest);
+        VolleyMgr.getInstance(ctx).getRequestQueue().add(jsonObjectRequest);
     }
 }

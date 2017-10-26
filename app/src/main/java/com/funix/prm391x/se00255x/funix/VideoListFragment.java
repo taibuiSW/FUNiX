@@ -13,16 +13,21 @@ import android.view.ViewGroup;
 
 import com.google.firebase.database.Query;
 
-import static android.support.v7.widget.RecyclerView.OnScrollListener;
-
-public class ListFragment extends Fragment {
+public class VideoListFragment extends Fragment {
     private View mLayout;
     private RecyclerView mRecycler;
     private RealtimeAdapter mAdapter;
     private Query mQuery;
-    private OnScrollListener mOnScrollListener;
     private LinearLayoutManager mLinearLayoutMgr;
     private GridLayoutManager mGridLayoutMgr;
+
+    public static VideoListFragment newInstance(String title) {
+        Bundle args = new Bundle();
+        args.putString("Title", title);
+        VideoListFragment f = new VideoListFragment();
+        f.setArguments(args);
+        return f;
+    }
 
     @Nullable
     @Override
@@ -36,12 +41,15 @@ public class ListFragment extends Fragment {
 
         setLayoutMgr(getActivity().getResources().getConfiguration().screenWidthDp);
 
-        mAdapter = new RealtimeAdapter(getContext(), mQuery);
+        String title = getArguments().getString("Title");
+
+        mAdapter = new RealtimeAdapter(getContext(), DatabaseMgr.getInstance().getQuery(title));
         mRecycler.setAdapter(mAdapter);
 
-        if (mOnScrollListener != null) {
-            mRecycler.addOnScrollListener(mOnScrollListener);
+        if ("Playlist".equals(title)) {
+            mRecycler.addOnScrollListener(new OnScrollPreloader(getContext()));
         }
+
         return mLayout;
     }
 
@@ -60,13 +68,5 @@ public class ListFragment extends Fragment {
         mRecycler.setLayoutManager(screenWidthDp > 480
                 ? mGridLayoutMgr
                 : mLinearLayoutMgr);
-    }
-
-    public void addOnScrollListener(OnScrollListener onScrollListener) {
-        mOnScrollListener = onScrollListener;
-    }
-
-    public void setQuery(Query query) {
-        mQuery = query;
     }
 }

@@ -21,7 +21,7 @@ public class VideoListImpl implements ViewMvcVideoList {
         mViewPager = (ViewPager) mRootView.findViewById(R.id.viewpager);
 
         AppCompatActivity activity = (AppCompatActivity) ctx;
-        ViewPagerAdapter adapter = new ViewPagerAdapter(ctx, activity.getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(activity.getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) mRootView.findViewById(R.id.tabs);
