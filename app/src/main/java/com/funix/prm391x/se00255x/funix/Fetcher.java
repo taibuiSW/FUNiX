@@ -1,7 +1,6 @@
 package com.funix.prm391x.se00255x.funix;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -25,7 +24,6 @@ public class Fetcher {
     private String mPlayListId;
     private String mNextToken;
     private boolean mIsRunning;
-    private boolean mEndOfList;
     private int mMaxResults;
     private int mCursor;
 
@@ -40,30 +38,29 @@ public class Fetcher {
         mDbMgr = DatabaseMgr.getInstance();
         mDbMgr.clearPlaylist();
         mPlayListId = "UUMOgdURr7d8pOVlc-alkfRg";
+        mNextToken = "";
         mMaxResults = 20;
     }
 
+    /* Be careful!! Check PART_2 for null if using getLink() outside getPlaylist() */
     private String getLink() {
         return PART_1 + mMaxResults +
-                (mNextToken == null ? "" : PART_2 + mNextToken) +
+                PART_2 + mNextToken +
                 PART_3 + mPlayListId +
                 PART_4 + Const.API_KEY;
     }
 
     public synchronized void getPlaylist(final Context ctx) {
-        if (mEndOfList || mIsRunning) return;
+        if (mNextToken == null || mIsRunning) return;
         mIsRunning = true;
-        Log.e("___", "getting Playlist");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(getLink(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             mNextToken = response.getString("nextPageToken");
-                            mEndOfList = false;
                         } catch (JSONException e) {
                             mNextToken = null;
-                            mEndOfList = true;
                         }
 
                         try {
