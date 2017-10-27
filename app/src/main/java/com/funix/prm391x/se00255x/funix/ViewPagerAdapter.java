@@ -5,25 +5,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    private String[] titles = {"Playlist", "History"};
+    private String[] mTitles;
 
-    public ViewPagerAdapter(FragmentManager fm) {
+    public ViewPagerAdapter(FragmentManager fm, String[] titles) {
         super(fm);
+        mTitles = titles;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return VideoListFragment.newInstance(titles[position]);
+        return VideoListFragment.newInstance(mTitles[position]);
     }
 
     @Override
     public int getCount() {
-        return titles.length;
+        return mTitles.length;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return titles[position];
+        return mTitles[position];
     }
-    
 }
