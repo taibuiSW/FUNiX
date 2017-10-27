@@ -48,7 +48,7 @@ public class DatabaseMgr {
     }
 
     public Query getQuery(String keyEnum) {
-        switch (keyEnum.toLowerCase()) {
+        switch (keyEnum) {
             case HISTORY:
                 return mRefHistory.orderByChild("mTime");
             case PLAYLIST:
