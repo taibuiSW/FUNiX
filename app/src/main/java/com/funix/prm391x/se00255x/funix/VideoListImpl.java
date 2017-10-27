@@ -1,6 +1,7 @@
 package com.funix.prm391x.se00255x.funix;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import static android.view.View.*;
+
+/* This is the view of MainActivity */
 
 public class VideoListImpl implements ViewMvcVideoList {
     private View mRootView;
@@ -21,7 +24,9 @@ public class VideoListImpl implements ViewMvcVideoList {
         mViewPager = (ViewPager) mRootView.findViewById(R.id.viewpager);
 
         AppCompatActivity activity = (AppCompatActivity) ctx;
-        ViewPagerAdapter adapter = new ViewPagerAdapter(activity.getSupportFragmentManager());
+        Resources res = ctx.getResources();
+        ViewPagerAdapter adapter = new ViewPagerAdapter(activity.getSupportFragmentManager(),
+                new String[]{res.getString(R.string.playlist), res.getString(R.string.history)});
         mViewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) mRootView.findViewById(R.id.tabs);
