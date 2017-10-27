@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix;
+package com.funix.prm391x.se00255x.funix.activity.VideoListing;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,16 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.funix.prm391x.se00255x.funix.R;
+import com.funix.prm391x.se00255x.funix.ViewPagerAdapter;
+
 import static android.view.View.*;
 
-/* This is the view of MainActivity */
+/* This is the view of VideoListingActivity */
 
-public class VideoListImpl implements ViewMvcVideoList {
+public class VideoListingViewImpl implements VideoListingView {
     private View mRootView;
     private ViewPager mViewPager;
     private View mNetworkIndicator;
 
-    public VideoListImpl(Context ctx) {
+    public VideoListingViewImpl(Context ctx) {
         mRootView = LayoutInflater.from(ctx).inflate(R.layout.activity_main, (ViewGroup) null);
         mViewPager = (ViewPager) mRootView.findViewById(R.id.viewpager);
 

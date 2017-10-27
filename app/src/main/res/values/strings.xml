@@ -2,7 +2,8 @@
     <string name="app_name">FUNiX</string>
     <string name="log_in">Log In</string>
     <string name="thumbnail">thumbnail</string>
-    <string name="history">History</string>
+    <string name="playlist">playlist</string>
+    <string name="history">history</string>
     <string name="no_internet_access">No internet access</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="facebook_app_id">133612704030505</string>

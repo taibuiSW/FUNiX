@@ -18,7 +18,7 @@
 
         <!-- LoginActivity -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.Login.LoginActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/log_in">
 
@@ -28,9 +28,9 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity -->
+        <!-- VideoListingActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.VideoListing.VideoListingActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize"/>
 

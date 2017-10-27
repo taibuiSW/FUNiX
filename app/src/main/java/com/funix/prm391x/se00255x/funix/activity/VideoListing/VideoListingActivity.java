@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix;
+package com.funix.prm391x.se00255x.funix.activity.VideoListing;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,17 +7,23 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.funix.prm391x.se00255x.funix.DatabaseMgr;
+import com.funix.prm391x.se00255x.funix.Fetcher;
+import com.funix.prm391x.se00255x.funix.VideoListFragment;
+
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 import static android.net.ConnectivityManager.EXTRA_NO_CONNECTIVITY;
 
-public class MainActivity extends AppCompatActivity {
-    private VideoListImpl mVideoList;
+public class VideoListingActivity extends AppCompatActivity {
+    private VideoListingViewImpl mVideoList;
     private BroadcastReceiver mReceiver;
+    private VideoListFragment mPlaylistFragment;
+    private VideoListFragment mHistoryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVideoList = new VideoListImpl(this);
+        mVideoList = new VideoListingViewImpl(this);
         setContentView(mVideoList.getRootView());
 
         mReceiver = new BroadcastReceiver() {
@@ -44,5 +50,9 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
 
         // Todo logout dialog
+    }
+
+    public void registerFragment(VideoListFragment videoListFragment) {
+        videoListFragment.bindVideoQuery(DatabaseMgr.getInstance().getQuery(videoListFragment.getTitle()));
     }
 }
