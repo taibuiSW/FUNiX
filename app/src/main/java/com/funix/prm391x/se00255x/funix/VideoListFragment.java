@@ -24,9 +24,9 @@ public class VideoListFragment extends Fragment {
     public static VideoListFragment newInstance(String title) {
         Bundle args = new Bundle();
         args.putString("Title", title);
-        VideoListFragment f = new VideoListFragment();
-        f.setArguments(args);
-        return f;
+        VideoListFragment fragment = new VideoListFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Nullable
@@ -46,10 +46,9 @@ public class VideoListFragment extends Fragment {
         mAdapter = new RealtimeAdapter(getContext(), DatabaseMgr.getInstance().getQuery(title));
         mRecycler.setAdapter(mAdapter);
 
-        if ("Playlist".equals(title)) {
+        if ("playlist".equals(title)) {
             mRecycler.addOnScrollListener(new OnScrollPreloader(getContext()));
         }
-
         return mLayout;
     }
 
