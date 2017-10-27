@@ -34,7 +34,7 @@ public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdap
         void populate(final VideoListFragment fragment, final Video video) {
             mTxvTitle.setText(video.getTitle());
             GlideApp.with(fragment)
-                    .load(video.getThumbnailUrl())
+                    .load(Video.getThumbnailUrl(video))
                     .placeholder(R.drawable.place_holder)
                     .into(mThumbnail);
         }

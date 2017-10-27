@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.funix.prm391x.se00255x.funix.DatabaseMgr;
 import com.funix.prm391x.se00255x.funix.Fetcher;
+import com.funix.prm391x.se00255x.funix.OnScrollPreloader;
+import com.funix.prm391x.se00255x.funix.R;
 import com.funix.prm391x.se00255x.funix.VideoListFragment;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
@@ -52,7 +54,10 @@ public class VideoListingActivity extends AppCompatActivity {
         // Todo logout dialog
     }
 
-    public void registerFragment(VideoListFragment videoListFragment) {
-        videoListFragment.bindVideoQuery(DatabaseMgr.getInstance().getQuery(videoListFragment.getTitle()));
+    public void registerFragment(VideoListFragment fragment) {
+        fragment.bindVideoQuery(DatabaseMgr.getInstance().getQuery(fragment.getTitle()));
+        if (fragment.getTitle().equals(getResources().getString(R.string.playlist))) {
+            fragment.addOnScrollListener(new OnScrollPreloader(this));
+        }
     }
 }

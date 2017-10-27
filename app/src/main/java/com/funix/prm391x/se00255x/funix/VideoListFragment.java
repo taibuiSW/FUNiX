@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.funix.prm391x.se00255x.funix.activity.VideoListing.VideoListingActivity;
 import com.google.firebase.database.Query;
 
+import static android.support.v7.widget.RecyclerView.OnScrollListener;
+
 public class VideoListFragment extends Fragment implements Title, VideoListing {
     private VideoListFragmentViewImpl mVideoListFragmentView;
     private View mRootView;
@@ -36,7 +38,7 @@ public class VideoListFragment extends Fragment implements Title, VideoListing {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mVideoListFragmentView.CacheLayoutManager(getActivity());
+        mVideoListFragmentView.cacheLayoutManager(getActivity());
         ((VideoListingActivity) getActivity()).registerFragment(this);
     }
 
@@ -49,6 +51,11 @@ public class VideoListFragment extends Fragment implements Title, VideoListing {
     @Override
     public String getTitle() {
         return getArguments().getString(TITLE);
+    }
+
+    @Override
+    public void addOnScrollListener(OnScrollListener listener) {
+        mVideoListFragmentView.addOnScrollListener(listener);
     }
 
     @Override

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.google.firebase.database.Query;
 
+import static android.support.v7.widget.RecyclerView.*;
+
 public class VideoListFragmentViewImpl implements ViewListFragmentView {
     private VideoListFragment mFragment;
     private View mRootView;
@@ -26,9 +28,14 @@ public class VideoListFragmentViewImpl implements ViewListFragmentView {
         mRecycler = (RecyclerView) mRootView.findViewById(R.id.recycler_list);
     }
 
-    public void CacheLayoutManager(Context ctx) {
+    public void cacheLayoutManager(Context ctx) {
         mLinearLayoutMgr = new LinearLayoutManager(ctx);
         mGridLayoutMgr = new GridLayoutManager(ctx, 2);
+    }
+
+    @Override
+    public void addOnScrollListener(OnScrollListener listener) {
+        mRecycler.addOnScrollListener(listener);
     }
 
     @Override
