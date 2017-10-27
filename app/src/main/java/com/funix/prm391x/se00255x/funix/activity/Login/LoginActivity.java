@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix;
+package com.funix.prm391x.se00255x.funix.activity.Login;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,6 +14,8 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.funix.prm391x.se00255x.funix.R;
+import com.funix.prm391x.se00255x.funix.activity.VideoListing.VideoListingActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -38,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // redirect to MainActivity if user's already logged in
+        // redirect to VideoListingActivity if user's already logged in
         if (mAuth.getCurrentUser() != null) {
             startMainActivity();
             return;
@@ -102,8 +104,8 @@ public class LoginActivity extends AppCompatActivity {
     private void startMainActivity() {
         // finish LoginActivity
         finish();
-        // start MainActivity
-        startActivity(new Intent(mCtx, MainActivity.class));
+        // start VideoListingActivity
+        startActivity(new Intent(mCtx, VideoListingActivity.class));
     }
 
 }
