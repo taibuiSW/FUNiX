@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.funix.prm391x.se00255x.funix.Fragment.VideoListFragment;
+
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     private String[] mTitles;
 

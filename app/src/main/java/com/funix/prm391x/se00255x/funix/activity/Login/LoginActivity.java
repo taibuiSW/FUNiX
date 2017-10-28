@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         // [START initialize Fb login]
         // Initialize Facebook Login button
         mCallbackMgr = CallbackManager.Factory.create();
-        mLoginButton = (LoginButton) findViewById(R.id.login_button);
+        mLoginButton = findViewById(R.id.login_button);
         mLoginButton.setReadPermissions("email", "public_profile");
         mLoginButton.registerCallback(mCallbackMgr, new FacebookCallback<LoginResult>() {
             @Override

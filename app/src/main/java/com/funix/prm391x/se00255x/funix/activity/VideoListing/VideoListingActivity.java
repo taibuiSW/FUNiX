@@ -1,63 +1,63 @@
 package com.funix.prm391x.se00255x.funix.activity.VideoListing;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
-import com.funix.prm391x.se00255x.funix.DatabaseMgr;
-import com.funix.prm391x.se00255x.funix.Fetcher;
-import com.funix.prm391x.se00255x.funix.OnScrollPreloader;
 import com.funix.prm391x.se00255x.funix.R;
-import com.funix.prm391x.se00255x.funix.VideoListFragment;
+import com.funix.prm391x.se00255x.funix.ViewPagerAdapter;
 
-import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
-import static android.net.ConnectivityManager.EXTRA_NO_CONNECTIVITY;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
-public class VideoListingActivity extends AppCompatActivity {
-    private VideoListingViewImpl mVideoList;
-    private BroadcastReceiver mReceiver;
-    private VideoListFragment mPlaylistFragment;
-    private VideoListFragment mHistoryFragment;
+public class VideoListingActivity extends AppCompatActivity implements IVideoListingView {
+    private VideoListingPresenter mPresenter;
+    private ViewPager mViewPager;
+    private View mNetworkIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVideoList = new VideoListingViewImpl(this);
-        setContentView(mVideoList.getRootView());
+        setContentView(R.layout.activity_main);
 
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                boolean isConnected = !intent.getBooleanExtra(EXTRA_NO_CONNECTIVITY, false);
-                mVideoList.indicateNetworkStatus(isConnected);
-            }
-        };
+        mPresenter = new VideoListingPresenter(this);
 
-        registerReceiver(mReceiver, new IntentFilter(CONNECTIVITY_ACTION));
+        mViewPager = findViewById(R.id.viewpager);
+        Resources res = getResources();
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),
+                new String[]{res.getString(R.string.playlist), res.getString(R.string.history)});
 
-        Fetcher.getInstance().getPlaylist(this);
+        mViewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        mNetworkIndicator = findViewById(R.id.txv_net_status);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mReceiver);
+        mPresenter.onDestroy();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+        mPresenter.onBackPressed();
         // Todo logout dialog
     }
 
-    public void registerFragment(VideoListFragment fragment) {
-        fragment.bindVideoQuery(DatabaseMgr.getInstance().getQuery(fragment.getTitle()));
-        if (fragment.getTitle().equals(getResources().getString(R.string.playlist))) {
-            fragment.addOnScrollListener(new OnScrollPreloader(this));
-        }
+    @Override
+    public void indicateNetworkStatus(boolean isConnected) {
+        mNetworkIndicator.setVisibility(isConnected ? GONE : VISIBLE);
+    }
+
+    @Override
+    public IVideoListingPresenter getPresenter() {
+        return mPresenter;
     }
 }
