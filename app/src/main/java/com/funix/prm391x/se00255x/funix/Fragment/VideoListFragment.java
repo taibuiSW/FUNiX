@@ -55,6 +55,6 @@ public class VideoListFragment extends Fragment implements Title, IVideoListFrag
 
     @Override
     public void bindVideoQuery(Query query) {
-        mPresenter.bindVideoQuery(query, mRecyclerView);
+        
     }
 }

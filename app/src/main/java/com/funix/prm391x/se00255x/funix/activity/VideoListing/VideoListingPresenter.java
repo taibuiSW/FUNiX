@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.funix.prm391x.se00255x.funix.DatabaseMgr;
 import com.funix.prm391x.se00255x.funix.Fragment.VideoListFragment;
+import com.funix.prm391x.se00255x.funix.OnScrollPreloader;
+import com.funix.prm391x.se00255x.funix.R;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 import static android.net.ConnectivityManager.EXTRA_NO_CONNECTIVITY;
@@ -44,6 +47,9 @@ public class VideoListingPresenter implements IVideoListingPresenter {
 
     @Override
     public void registerFragment(VideoListFragment fragment) {
-        
+        fragment.bindVideoQuery(DatabaseMgr.getInstance().getQuery(fragment.getTitle()));
+        if (fragment.getTitle().equals(mActivity.getResources().getString(R.string.playlist))) {
+            fragment.addOnScrollListener(new OnScrollPreloader(mActivity));
+        }
     }
 }
