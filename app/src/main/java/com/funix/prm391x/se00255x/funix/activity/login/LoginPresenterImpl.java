@@ -32,8 +32,9 @@ public class LoginPresenterImpl implements LoginPresenter {
         }
 
         // [START initialize Fb login]
-        // Initialize Facebook Login button
         mCallbackMgr = CallbackManager.Factory.create();
+
+        // Initialize Facebook Login button
         LoginButton loginBtn = mLoginView.getLoginButton();
         loginBtn.setReadPermissions("email", "public_profile");
         loginBtn.registerCallback(mCallbackMgr, new FacebookCallback<LoginResult>() {
@@ -78,9 +79,9 @@ public class LoginPresenterImpl implements LoginPresenter {
                 });
     }
 
+    // Pass the activity result back to the Facebook SDK
     @Override
-    public void handleActivityResult(int requestCode, int resultCode, Intent data) {
-        // Pass the activity result back to the Facebook SDK
+    public void forwardResultToFbSdk(int requestCode, int resultCode, Intent data) {
         mCallbackMgr.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -20,16 +20,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Initialize Facebook Login button
         mLoginButton = findViewById(R.id.login_button);
-
         mPresenter = new LoginPresenterImpl(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mPresenter.handleActivityResult(requestCode, resultCode, data);
+        mPresenter.forwardResultToFbSdk(requestCode, resultCode, data);
     }
 
     @Override

@@ -8,6 +8,6 @@ public interface LoginPresenter {
 
     void handleFacebookAccessToken(AccessToken token);
 
-    void handleActivityResult(int requestCode, int resultCode, Intent data);
+    void forwardResultToFbSdk(int requestCode, int resultCode, Intent data);
 
 }
