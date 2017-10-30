@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.fragment;
+package com.funix.prm391x.se00255x.funix.fragment.view;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -16,7 +16,9 @@ import com.funix.prm391x.se00255x.funix.R;
 import com.funix.prm391x.se00255x.funix.RealtimeAdapter;
 import com.funix.prm391x.se00255x.funix.Utils;
 import com.funix.prm391x.se00255x.funix.Video;
-import com.funix.prm391x.se00255x.funix.activity.main.MainView;
+import com.funix.prm391x.se00255x.funix.activity.main.view.MainView;
+import com.funix.prm391x.se00255x.funix.fragment.presenter.VideoListPresenter;
+import com.funix.prm391x.se00255x.funix.fragment.presenter.VideoListPresenterImpl;
 import com.google.firebase.database.Query;
 
 import static android.support.v7.widget.RecyclerView.OnScrollListener;
@@ -30,7 +32,7 @@ public class VideoListFragment extends Fragment implements VideoListFragmentView
 
     public static VideoListFragment newInstance(String title) {
         Bundle args = new Bundle();
-        args.putString(TITLE, title);
+        args.putString(VideoListFragmentView.TITLE, title);
         VideoListFragment fragment = new VideoListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -63,7 +65,7 @@ public class VideoListFragment extends Fragment implements VideoListFragmentView
 
     @Override
     public String getTitle() {
-        return getArguments().getString(TITLE);
+        return getArguments().getString(VideoListFragmentView.TITLE);
     }
 
     @Override

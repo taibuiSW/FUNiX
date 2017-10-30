@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.activity.main;
+package com.funix.prm391x.se00255x.funix.activity.main.presenter;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 
 import com.facebook.login.LoginManager;
 import com.funix.prm391x.se00255x.funix.DatabaseMgr;
+import com.funix.prm391x.se00255x.funix.activity.main.view.MainView;
 import com.funix.prm391x.se00255x.funix.fragment.VideoListFragment;
 import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
 import com.google.firebase.auth.FirebaseAuth;

@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.activity.main;
+package com.funix.prm391x.se00255x.funix.activity.main.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +14,8 @@ import com.funix.prm391x.se00255x.funix.Fetcher;
 import com.funix.prm391x.se00255x.funix.OnScrollPreloader;
 import com.funix.prm391x.se00255x.funix.R;
 import com.funix.prm391x.se00255x.funix.ViewPagerAdapter;
-import com.funix.prm391x.se00255x.funix.activity.login.LoginActivity;
+import com.funix.prm391x.se00255x.funix.activity.login.view.LoginActivity;
+import com.funix.prm391x.se00255x.funix.activity.main.presenter.MainPresenterImpl;
 import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
 
 import static android.view.View.GONE;

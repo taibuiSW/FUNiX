@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.activity.login;
+package com.funix.prm391x.se00255x.funix.activity.login.view;
 
 import com.facebook.login.widget.LoginButton;
 

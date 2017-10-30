@@ -18,7 +18,7 @@
 
         <!-- LoginActivity -->
         <activity
-            android:name=".activity.login.LoginActivity"
+            android:name=".activity.login.view.LoginActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/log_in">
 
@@ -30,7 +30,7 @@
 
         <!-- MainActivity -->
         <activity
-            android:name=".activity.main.MainActivity"
+            android:name=".activity.main.view.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize"/>
 

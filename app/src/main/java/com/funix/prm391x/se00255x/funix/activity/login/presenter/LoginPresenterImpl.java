@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.activity.login;
+package com.funix.prm391x.se00255x.funix.activity.login.presenter;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.funix.prm391x.se00255x.funix.activity.login.view.LoginView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;

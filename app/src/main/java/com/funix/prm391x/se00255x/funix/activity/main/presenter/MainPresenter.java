@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.activity.main;
+package com.funix.prm391x.se00255x.funix.activity.main.presenter;
 
 import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
 

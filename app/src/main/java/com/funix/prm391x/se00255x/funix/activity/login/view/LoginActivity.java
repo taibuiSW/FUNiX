@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.activity.login;
+package com.funix.prm391x.se00255x.funix.activity.login.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -8,7 +8,9 @@ import android.widget.Toast;
 
 import com.facebook.login.widget.LoginButton;
 import com.funix.prm391x.se00255x.funix.R;
-import com.funix.prm391x.se00255x.funix.activity.main.MainActivity;
+import com.funix.prm391x.se00255x.funix.activity.login.presenter.LoginPresenter;
+import com.funix.prm391x.se00255x.funix.activity.login.presenter.LoginPresenterImpl;
+import com.funix.prm391x.se00255x.funix.activity.main.view.MainActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
     private LoginPresenter mPresenter;
