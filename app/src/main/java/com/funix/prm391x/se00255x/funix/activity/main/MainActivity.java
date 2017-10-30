@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.activity.VideoListing;
+package com.funix.prm391x.se00255x.funix.activity.main;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -7,15 +7,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.funix.prm391x.se00255x.funix.Fetcher;
+import com.funix.prm391x.se00255x.funix.OnScrollPreloader;
 import com.funix.prm391x.se00255x.funix.R;
 import com.funix.prm391x.se00255x.funix.ViewPagerAdapter;
+import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class VideoListingActivity extends AppCompatActivity implements IVideoListingView {
-    private VideoListingPresenter mPresenter;
-    private ViewPager mViewPager;
+public class MainActivity extends AppCompatActivity implements MainView {
+    private MainPresenterImpl mPresenter;
     private View mNetworkIndicator;
 
     @Override
@@ -23,31 +25,33 @@ public class VideoListingActivity extends AppCompatActivity implements IVideoLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mPresenter = new VideoListingPresenter(this);
-
-        mViewPager = findViewById(R.id.viewpager);
+        ViewPager viewPager = findViewById(R.id.viewpager);
         Resources res = getResources();
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),
                 new String[]{res.getString(R.string.playlist), res.getString(R.string.history)});
 
-        mViewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
+        Fetcher.getInstance().getPlaylist(this);
         mNetworkIndicator = findViewById(R.id.txv_net_status);
+
+        mPresenter = new MainPresenterImpl(this);
+        mPresenter.registerConnectivityReceiver();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.onDestroy();
+        mPresenter.unregisterConnectivityReceiver();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mPresenter.onBackPressed();
+        mPresenter.logout();
         // Todo logout dialog
     }
 
@@ -57,7 +61,10 @@ public class VideoListingActivity extends AppCompatActivity implements IVideoLis
     }
 
     @Override
-    public IVideoListingPresenter getPresenter() {
-        return mPresenter;
+    public void registerFragment(VideoListFragmentView fragment) {
+        if (fragment.getTitle().equals(getResources().getString(R.string.playlist))) {
+            fragment.addOnScrollListener(new OnScrollPreloader(this));
+        }
+        mPresenter.bindVideoQuery(fragment);
     }
 }

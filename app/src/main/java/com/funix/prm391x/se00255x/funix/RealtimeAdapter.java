@@ -1,6 +1,6 @@
 package com.funix.prm391x.se00255x.funix;
 
-import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +10,29 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
 
 public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdapter.VideoViewHolder> {
-    private Context mCtx;
+    private VideoListFragmentView mFragment;
 
-    public RealtimeAdapter(Context ctx, FirebaseRecyclerOptions<Video> options) {
+    public RealtimeAdapter(VideoListFragmentView fragment, FirebaseRecyclerOptions<Video> options) {
         super(options);
-        mCtx = ctx;
+        mFragment = fragment;
     }
 
     @Override
-    protected void onBindViewHolder(VideoViewHolder holder, int position, Video video) {
+    protected void onBindViewHolder(VideoViewHolder holder, int position, final Video video) {
         holder.mTxvTitle.setText(video.getTitle());
-        GlideApp.with(mCtx)
+        GlideApp.with((Fragment) mFragment)
                 .load(Video.getThumbnailUrl(video))
                 .placeholder(R.drawable.place_holder)
                 .into(holder.mThumbnail);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mFragment.onVideoItemClicked(video);
+            }
+        });
     }
 
     @Override
@@ -38,7 +45,6 @@ public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdap
     public static class VideoViewHolder extends RecyclerView.ViewHolder {
         ImageView mThumbnail;
         TextView mTxvTitle;
-        Context mCtx;
 
         public VideoViewHolder(View itemView) {
             super(itemView);

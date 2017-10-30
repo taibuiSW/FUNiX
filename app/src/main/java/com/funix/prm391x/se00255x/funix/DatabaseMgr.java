@@ -50,7 +50,7 @@ public class DatabaseMgr {
     public Query getQuery(String keyEnum) {
         switch (keyEnum) {
             case HISTORY:
-                return mRefHistory.orderByChild("mTime");
+                return mRefHistory.orderByChild("time");
             case PLAYLIST:
                 return mRefPlaylist;
         }
