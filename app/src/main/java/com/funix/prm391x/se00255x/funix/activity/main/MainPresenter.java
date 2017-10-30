@@ -7,8 +7,8 @@ public interface MainPresenter {
 
     void unregisterConnectivityReceiver();
 
-    void logout();
-
     void bindVideoQuery(VideoListFragmentView fragment);
+
+    void logout();
 
 }

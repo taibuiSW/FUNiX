@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.facebook.login.LoginManager;
 import com.funix.prm391x.se00255x.funix.DatabaseMgr;
 import com.funix.prm391x.se00255x.funix.fragment.VideoListFragment;
 import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 import static android.net.ConnectivityManager.EXTRA_NO_CONNECTIVITY;
@@ -41,13 +43,17 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     @Override
-    public void logout() {
-
-    }
-
-    @Override
     public void bindVideoQuery(VideoListFragmentView fragment) {
         fragment.setUpAdapter(DatabaseMgr.getInstance()
                 .getQuery(fragment.getTitle()));
+    }
+
+    @Override
+    public void logout() {
+        // sign out firebase
+        FirebaseAuth.getInstance().signOut();
+
+        // logout facebook
+        LoginManager.getInstance().logOut();
     }
 }

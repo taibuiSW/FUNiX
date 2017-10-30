@@ -1,9 +1,12 @@
 package com.funix.prm391x.se00255x.funix.activity.main;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -11,6 +14,7 @@ import com.funix.prm391x.se00255x.funix.Fetcher;
 import com.funix.prm391x.se00255x.funix.OnScrollPreloader;
 import com.funix.prm391x.se00255x.funix.R;
 import com.funix.prm391x.se00255x.funix.ViewPagerAdapter;
+import com.funix.prm391x.se00255x.funix.activity.login.LoginActivity;
 import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
 
 import static android.view.View.GONE;
@@ -50,9 +54,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        mPresenter.logout();
-        // Todo logout dialog
+        showLogoutDialog();
     }
 
     @Override
@@ -66,5 +68,34 @@ public class MainActivity extends AppCompatActivity implements MainView {
             fragment.addOnScrollListener(new OnScrollPreloader(this));
         }
         mPresenter.bindVideoQuery(fragment);
+    }
+
+    @Override
+    public void showLogoutDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this)
+                .setTitle("Confirm logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Stay",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                .setNegativeButton("Logout",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mPresenter.logout();
+                                startLoginActivity();
+                            }
+                        });
+        alertBuilder.create().show();
+    }
+
+    @Override
+    public void startLoginActivity() {
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }

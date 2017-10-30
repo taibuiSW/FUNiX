@@ -8,4 +8,8 @@ public interface MainView {
 
     void registerFragment(VideoListFragmentView fragment);
 
+    void showLogoutDialog();
+
+    void startLoginActivity();
+
 }
