@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
+import com.funix.prm391x.se00255x.funix.fragment.view.VideoListFragmentView;
 
 public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdapter.VideoViewHolder> {
     private VideoListFragmentView mFragment;

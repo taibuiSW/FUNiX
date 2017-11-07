@@ -47,8 +47,8 @@ public class DatabaseMgr {
         mRefHistory.child(video.getId()).setValue(video);
     }
 
-    public Query getQuery(String keyEnum) {
-        switch (keyEnum) {
+    public Query getQuery(String queryKey) {
+        switch (queryKey) {
             case HISTORY:
                 return mRefHistory.orderByChild("time");
             case PLAYLIST:

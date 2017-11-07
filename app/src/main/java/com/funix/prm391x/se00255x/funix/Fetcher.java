@@ -1,7 +1,6 @@
 package com.funix.prm391x.se00255x.funix;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,7 +41,7 @@ public class Fetcher {
         mMaxResults = 20;
     }
 
-    /* Be careful!! Check PART_2 for null if using getLink() outside getPlaylist() */
+    // Be careful!! Check PART_2 for null if using getLink() outside getPlaylist()
     private String getLink() {
         return PART_1 + mMaxResults +
                 PART_2 + mNextToken +
@@ -82,7 +81,7 @@ public class Fetcher {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ctx, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        error.printStackTrace();
                         mIsRunning = false;
                     }
                 });

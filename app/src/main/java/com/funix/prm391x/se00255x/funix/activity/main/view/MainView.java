@@ -1,6 +1,6 @@
 package com.funix.prm391x.se00255x.funix.activity.main.view;
 
-import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
+import com.funix.prm391x.se00255x.funix.fragment.view.VideoListFragmentView;
 
 public interface MainView {
 

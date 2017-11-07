@@ -2,6 +2,7 @@ package com.funix.prm391x.se00255x.funix.activity.main.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,14 +11,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.funix.prm391x.se00255x.funix.Fetcher;
 import com.funix.prm391x.se00255x.funix.OnScrollPreloader;
 import com.funix.prm391x.se00255x.funix.R;
 import com.funix.prm391x.se00255x.funix.ViewPagerAdapter;
 import com.funix.prm391x.se00255x.funix.activity.login.view.LoginActivity;
 import com.funix.prm391x.se00255x.funix.activity.main.presenter.MainPresenterImpl;
-import com.funix.prm391x.se00255x.funix.fragment.VideoListFragmentView;
+import com.funix.prm391x.se00255x.funix.fragment.view.VideoListFragmentView;
 
+import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -40,17 +41,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        Fetcher.getInstance().getPlaylist(this);
         mNetworkIndicator = findViewById(R.id.txv_net_status);
 
         mPresenter = new MainPresenterImpl(this);
-        mPresenter.registerConnectivityReceiver();
+        registerReceiver(mPresenter, new IntentFilter(CONNECTIVITY_ACTION));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.unregisterConnectivityReceiver();
+        unregisterReceiver(mPresenter);
     }
 
     @Override
