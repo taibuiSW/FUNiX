@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">FUNiX</string>
-    <string name="log_in">Log In</string>
+    <string name="app_name">Xkito</string>
     <string name="thumbnail">thumbnail</string>
     <string name="playlist">playlist</string>
     <string name="history">history</string>

@@ -19,8 +19,8 @@
         <!-- LoginActivity -->
         <activity
             android:name=".activity.login.view.LoginActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/log_in">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

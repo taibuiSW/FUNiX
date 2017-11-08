@@ -13,7 +13,7 @@ import com.google.android.youtube.player.YouTubeStandalonePlayer;
 public class Utils {
     public static boolean hasInternetAccess(Context ctx) {
         ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        NetworkInfo activeNetwork = cm != null ? cm.getActiveNetworkInfo() : null;
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
