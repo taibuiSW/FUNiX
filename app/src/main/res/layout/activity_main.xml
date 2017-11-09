@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/pattern_bg"
+    android:background="@color/colorLightGray"
     tools:context="com.funix.prm391x.se00255x.funix.activity.main.view.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -32,6 +32,8 @@
             android:layout_height="wrap_content"
             app:tabMaxWidth="0dp"
             app:tabGravity="fill"
+            app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed|snap"
+            android:minHeight="3dp"
             app:tabIndicatorHeight="3dp" />
 
         <TextView
