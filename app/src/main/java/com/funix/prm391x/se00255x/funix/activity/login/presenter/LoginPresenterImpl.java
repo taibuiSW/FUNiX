@@ -41,6 +41,7 @@ public class LoginPresenterImpl implements LoginPresenter,
         LoginButton loginBtn = mLoginView.getLoginButton();
         loginBtn.setReadPermissions("email", "public_profile");
         loginBtn.registerCallback(mCallbackMgr, this);
+        loginBtn.performClick();
         // [END initialize Fb login]
     }
 
