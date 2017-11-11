@@ -8,8 +8,8 @@ import com.facebook.login.LoginManager;
 import com.funix.prm391x.se00255x.funix.DatabaseMgr;
 import com.funix.prm391x.se00255x.funix.Fetcher;
 import com.funix.prm391x.se00255x.funix.activity.main.view.MainView;
-import com.funix.prm391x.se00255x.funix.fragment.view.VideoListFragment;
-import com.funix.prm391x.se00255x.funix.fragment.view.VideoListFragmentView;
+import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragment;
+import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragmentView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import static android.net.ConnectivityManager.EXTRA_NO_CONNECTIVITY;

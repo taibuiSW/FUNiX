@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.fragment.view;
+package com.funix.prm391x.se00255x.funix.videolistfragment.view;
 
 import com.funix.prm391x.se00255x.funix.Video;
 import com.google.firebase.database.Query;

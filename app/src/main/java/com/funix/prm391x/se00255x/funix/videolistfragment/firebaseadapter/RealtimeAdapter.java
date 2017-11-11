@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix;
+package com.funix.prm391x.se00255x.funix.videolistfragment.firebaseadapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.funix.prm391x.se00255x.funix.fragment.view.VideoListFragmentView;
+import com.funix.prm391x.se00255x.funix.utils.GlideApp;
+import com.funix.prm391x.se00255x.funix.R;
+import com.funix.prm391x.se00255x.funix.Video;
+import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragmentView;
 
 public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdapter.VideoViewHolder> {
     private VideoListFragmentView mFragment;
@@ -42,11 +45,11 @@ public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdap
         return new VideoViewHolder(itemView);
     }
 
-    public static class VideoViewHolder extends RecyclerView.ViewHolder {
+    static class VideoViewHolder extends RecyclerView.ViewHolder {
         ImageView mThumbnail;
         TextView mTxvTitle;
 
-        public VideoViewHolder(View itemView) {
+        VideoViewHolder(View itemView) {
             super(itemView);
             mThumbnail = itemView.findViewById(R.id.niv_thumb);
             mTxvTitle = itemView.findViewById(R.id.txv_title);

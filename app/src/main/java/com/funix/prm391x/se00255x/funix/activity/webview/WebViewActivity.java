@@ -1,10 +1,12 @@
-package com.funix.prm391x.se00255x.funix;
+package com.funix.prm391x.se00255x.funix.activity.webview;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import com.funix.prm391x.se00255x.funix.R;
 
 public class WebViewActivity extends Activity {
     @SuppressLint("SetJavaScriptEnabled")

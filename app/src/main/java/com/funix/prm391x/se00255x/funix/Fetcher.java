@@ -5,6 +5,8 @@ import android.content.Context;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.funix.prm391x.se00255x.funix.utils.VolleySingleton;
+import com.funix.prm391x.se00255x.funix.utils.YoutubePlayer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +48,7 @@ public class Fetcher {
         return PART_1 + mMaxResults +
                 PART_2 + mNextToken +
                 PART_3 + mPlayListId +
-                PART_4 + Const.API_KEY;
+                PART_4 + YoutubePlayer.API_KEY;
     }
 
     public synchronized void getPlaylist(final Context ctx) {
@@ -85,6 +87,6 @@ public class Fetcher {
                         mIsRunning = false;
                     }
                 });
-        VolleyMgr.getInstance(ctx).getRequestQueue().add(jsonObjectRequest);
+        VolleySingleton.getInstance(ctx).getRequestQueue().add(jsonObjectRequest);
     }
 }

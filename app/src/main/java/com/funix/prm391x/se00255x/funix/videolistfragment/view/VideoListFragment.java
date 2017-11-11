@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.fragment.view;
+package com.funix.prm391x.se00255x.funix.videolistfragment.view;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,12 +13,12 @@ import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.funix.prm391x.se00255x.funix.R;
-import com.funix.prm391x.se00255x.funix.RealtimeAdapter;
-import com.funix.prm391x.se00255x.funix.Utils;
+import com.funix.prm391x.se00255x.funix.videolistfragment.firebaseadapter.RealtimeAdapter;
+import com.funix.prm391x.se00255x.funix.utils.YoutubePlayer;
 import com.funix.prm391x.se00255x.funix.Video;
 import com.funix.prm391x.se00255x.funix.activity.main.view.MainView;
-import com.funix.prm391x.se00255x.funix.fragment.presenter.VideoListPresenter;
-import com.funix.prm391x.se00255x.funix.fragment.presenter.VideoListPresenterImpl;
+import com.funix.prm391x.se00255x.funix.videolistfragment.presenter.VideoListPresenter;
+import com.funix.prm391x.se00255x.funix.videolistfragment.presenter.VideoListPresenterImpl;
 import com.google.firebase.database.Query;
 
 import static android.support.v7.widget.RecyclerView.OnScrollListener;
@@ -87,7 +87,7 @@ public class VideoListFragment extends Fragment implements VideoListFragmentView
     @Override
     public void onVideoItemClicked(Video video) {
         mPresenter.updateWatchHistory(video);
-        Utils.startYoutubePlayer(this.getContext(), video);
+        YoutubePlayer.start(this.getContext(), video);
     }
 
     @Override

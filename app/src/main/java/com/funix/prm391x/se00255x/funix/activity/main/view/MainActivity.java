@@ -13,10 +13,10 @@ import android.view.View;
 
 import com.funix.prm391x.se00255x.funix.OnScrollPreloader;
 import com.funix.prm391x.se00255x.funix.R;
-import com.funix.prm391x.se00255x.funix.ViewPagerAdapter;
+import com.funix.prm391x.se00255x.funix.activity.main.viewpageradapter.ViewPagerAdapter;
 import com.funix.prm391x.se00255x.funix.activity.login.view.LoginActivity;
 import com.funix.prm391x.se00255x.funix.activity.main.presenter.MainPresenterImpl;
-import com.funix.prm391x.se00255x.funix.fragment.view.VideoListFragmentView;
+import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragmentView;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 import static android.view.View.GONE;

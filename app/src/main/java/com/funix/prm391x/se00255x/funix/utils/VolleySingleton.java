@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix;
+package com.funix.prm391x.se00255x.funix.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,22 +6,22 @@ import android.content.Context;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-class VolleyMgr {
+public class VolleySingleton {
 
     @SuppressLint("StaticFieldLeak")
-    private static VolleyMgr mInstance;
+    private static VolleySingleton mInstance;
     private static Context mCtx;
 
     private RequestQueue mRequestQueue;
 
-    private VolleyMgr(Context context) {
+    private VolleySingleton(Context context) {
         mCtx = context.getApplicationContext();
         mRequestQueue = getRequestQueue();
     }
 
-    public static synchronized VolleyMgr getInstance(Context context) {
+    public static synchronized VolleySingleton getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new VolleyMgr(context);
+            mInstance = new VolleySingleton(context);
         }
         return mInstance;
     }
