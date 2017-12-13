@@ -15,7 +15,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.funix.prm391x.se00255x.funix.R;
 import com.funix.prm391x.se00255x.funix.videolistfragment.firebaseadapter.RealtimeAdapter;
 import com.funix.prm391x.se00255x.funix.utils.YoutubePlayer;
-import com.funix.prm391x.se00255x.funix.Video;
+import com.funix.prm391x.se00255x.funix.pojo.Video;
 import com.funix.prm391x.se00255x.funix.activity.main.view.MainView;
 import com.funix.prm391x.se00255x.funix.videolistfragment.presenter.VideoListPresenter;
 import com.funix.prm391x.se00255x.funix.videolistfragment.presenter.VideoListPresenterImpl;

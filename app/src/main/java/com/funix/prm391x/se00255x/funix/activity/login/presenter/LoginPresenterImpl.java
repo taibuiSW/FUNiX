@@ -74,9 +74,8 @@ public class LoginPresenterImpl implements LoginPresenter,
             mLoginView.hideProgress();
             mLoginView.startMainActivity();
         } else {
-            try {
-                throw task.getException();
-            } catch (Exception e) {
+            Exception e = task.getException();
+            if (e != null) {
                 mLoginView.toastMessage(e.getMessage());
             }
         }

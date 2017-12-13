@@ -1,6 +1,6 @@
 package com.funix.prm391x.se00255x.funix.videolistfragment.presenter;
 
-import com.funix.prm391x.se00255x.funix.Video;
+import com.funix.prm391x.se00255x.funix.pojo.Video;
 
 public interface VideoListPresenter {
 

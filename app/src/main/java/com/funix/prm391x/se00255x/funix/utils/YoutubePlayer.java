@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.funix.prm391x.se00255x.funix.Video;
-import com.funix.prm391x.se00255x.funix.activity.webview.WebViewActivity;
+import com.funix.prm391x.se00255x.funix.pojo.Video;
+import com.funix.prm391x.se00255x.funix.activity.webplayer.WebPlayerActivity;
 import com.google.android.youtube.player.YouTubeApiServiceUtil;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
@@ -24,7 +24,7 @@ public class YoutubePlayer {
             intent = YouTubeStandalonePlayer
                     .createVideoIntent((Activity) ctx, API_KEY, video.getId());
         } else {
-            intent = new Intent(ctx, WebViewActivity.class);
+            intent = new Intent(ctx, WebPlayerActivity.class);
             intent.putExtra("id", video.getId());
         }
         ctx.startActivity(intent);

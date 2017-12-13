@@ -11,11 +11,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.funix.prm391x.se00255x.funix.OnScrollPreloader;
 import com.funix.prm391x.se00255x.funix.R;
-import com.funix.prm391x.se00255x.funix.activity.main.viewpageradapter.ViewPagerAdapter;
 import com.funix.prm391x.se00255x.funix.activity.login.view.LoginActivity;
 import com.funix.prm391x.se00255x.funix.activity.main.presenter.MainPresenterImpl;
+import com.funix.prm391x.se00255x.funix.activity.main.viewpageradapter.ViewPagerAdapter;
 import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragmentView;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;

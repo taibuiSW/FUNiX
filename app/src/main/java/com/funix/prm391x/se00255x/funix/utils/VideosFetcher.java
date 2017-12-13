@@ -1,60 +1,59 @@
-package com.funix.prm391x.se00255x.funix;
+package com.funix.prm391x.se00255x.funix.utils;
 
 import android.content.Context;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.funix.prm391x.se00255x.funix.utils.VolleySingleton;
-import com.funix.prm391x.se00255x.funix.utils.YoutubePlayer;
+import com.funix.prm391x.se00255x.funix.pojo.Video;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Fetcher {
-    private static final String PART_1 = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=";
-    private static final String PART_2 = "&pageToken=";
-    private static final String PART_3 = "&playlistId=";
-    private static final String PART_4 = "&fields=items(snippet(resourceId%2FvideoId%2Ctitle))%2CnextPageToken&key=";
+public class VideosFetcher {
+    private static final String DEFAULT_BASE_URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
+    private static final String FIELDS = "&fields=items(snippet(resourceId%2FvideoId%2Ctitle))%2CnextPageToken";
+    private static final String MAX_RESULTS = "&maxResults=";
+    private static final String PAGE_TOKEN = "&pageToken=";
+    private static final String PLAYLIST_ID = "&playlistId=";
+    private static final String KEY = "&key=";
 
-    private static Fetcher mInstance;
+    private static VideosFetcher mInstance;
 
     private DatabaseMgr mDbMgr;
     //
-    private String mPlayListId;
-    private String mNextToken;
+    private String mPlayListId = "UUMOgdURr7d8pOVlc-alkfRg";
+    private String mNextToken = "";
     private boolean mIsRunning;
-    private int mMaxResults;
+    private int mMaxResults = 20;
     private int mCursor;
 
-    public static Fetcher getInstance() {
+    public static VideosFetcher getInstance() {
         if (mInstance == null) {
-            mInstance = new Fetcher();
+            mInstance = new VideosFetcher();
         }
         return mInstance;
     }
 
-    private Fetcher() {
+    private VideosFetcher() {
         mDbMgr = DatabaseMgr.getInstance();
         mDbMgr.clearPlaylist();
-        mPlayListId = "UUMOgdURr7d8pOVlc-alkfRg";
-        mNextToken = "";
-        mMaxResults = 20;
     }
 
-    // Be careful!! Check PART_2 for null if using getLink() outside getPlaylist()
-    private String getLink() {
-        return PART_1 + mMaxResults +
-                PART_2 + mNextToken +
-                PART_3 + mPlayListId +
-                PART_4 + YoutubePlayer.API_KEY;
+    // Be careful!! Check mNextToken for null if using requestUrl() outside getPlaylist()
+    private String requestUrl() {
+        return DEFAULT_BASE_URL + FIELDS +
+                MAX_RESULTS + mMaxResults +
+                PAGE_TOKEN + mNextToken +
+                PLAYLIST_ID + mPlayListId +
+                KEY + YoutubePlayer.API_KEY;
     }
 
     public synchronized void getPlaylist(final Context ctx) {
         if (mNextToken == null || mIsRunning) return;
         mIsRunning = true;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(getLink(), null,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(requestUrl(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

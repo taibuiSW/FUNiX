@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.activity.webview;
+package com.funix.prm391x.se00255x.funix.activity.webplayer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -8,13 +8,13 @@ import android.webkit.WebView;
 
 import com.funix.prm391x.se00255x.funix.R;
 
-public class WebViewActivity extends Activity {
+public class WebPlayerActivity extends Activity {
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.activity_web_view);
+        setContentView(R.layout.activity_web_player);
 
         String videoId = getIntent().getStringExtra("id");
         WebView wbvVideo = (WebView) findViewById(R.id.wbv_video);

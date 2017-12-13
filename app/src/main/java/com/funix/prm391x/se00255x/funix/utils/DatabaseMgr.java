@@ -1,5 +1,6 @@
-package com.funix.prm391x.se00255x.funix;
+package com.funix.prm391x.se00255x.funix.utils;
 
+import com.funix.prm391x.se00255x.funix.pojo.Video;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,11 +35,11 @@ public class DatabaseMgr {
         }
     }
 
-    public void addToPlaylist(int seq, Video video) {
+    void addToPlaylist(int seq, Video video) {
         mRefPlaylist.child("" + seq).setValue(video);
     }
 
-    public void clearPlaylist() {
+    void clearPlaylist() {
         mRefPlaylist.removeValue();
     }
 
