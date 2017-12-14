@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.funix.prm391x.se00255x.funix.utils.GlideApp;
 import com.funix.prm391x.se00255x.funix.R;
 import com.funix.prm391x.se00255x.funix.model.Video;
+import com.funix.prm391x.se00255x.funix.utils.GlideApp;
 import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragmentView;
 
 public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdapter.VideoViewHolder> {
@@ -27,7 +27,7 @@ public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdap
     protected void onBindViewHolder(VideoViewHolder holder, int position, final Video video) {
         holder.mTxvTitle.setText(video.getTitle());
         GlideApp.with((Fragment) mFragment)
-                .load(Video.getThumbnailUrl(video))
+                .load(video.getThumbnailUrl())
                 .placeholder(R.drawable.place_holder)
                 .into(holder.mThumbnail);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

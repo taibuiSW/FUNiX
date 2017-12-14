@@ -14,8 +14,8 @@ public class Video {
         mId = id;
     }
 
-    public static String getThumbnailUrl(Video v) {
-        return String.format(THUMB_URL, v.mId);
+    public String getThumbnailUrl() {
+        return String.format(THUMB_URL, mId);
     }
 
     public String getId() {
