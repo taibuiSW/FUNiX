@@ -6,8 +6,8 @@ import android.content.Intent;
 
 import com.facebook.login.LoginManager;
 import com.funix.prm391x.se00255x.funix.activity.main.view.MainView;
-import com.funix.prm391x.se00255x.funix.utils.DatabaseMgr;
-import com.funix.prm391x.se00255x.funix.utils.OnScrollVideosLoader;
+import com.funix.prm391x.se00255x.funix.data.DatabaseMgr;
+import com.funix.prm391x.se00255x.funix.activity.main.view.OnScrollVideosLoader;
 import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragment;
 import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragmentView;
 import com.google.firebase.auth.FirebaseAuth;

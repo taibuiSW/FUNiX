@@ -1,12 +1,16 @@
-package com.funix.prm391x.se00255x.funix.utils;
+package com.funix.prm391x.se00255x.funix.activity.main.view;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.funix.prm391x.se00255x.funix.model.Video;
-import com.funix.prm391x.se00255x.funix.model.retrofit.Item;
-import com.funix.prm391x.se00255x.funix.model.retrofit.Playlist;
+import com.funix.prm391x.se00255x.funix.data.DatabaseMgr;
+import com.funix.prm391x.se00255x.funix.data.model.Video;
+import com.funix.prm391x.se00255x.funix.data.model.retrofit.Item;
+import com.funix.prm391x.se00255x.funix.data.model.retrofit.Playlist;
+import com.funix.prm391x.se00255x.funix.utils.YoutubeClient;
+import com.funix.prm391x.se00255x.funix.utils.YoutubeClientCreator;
+import com.funix.prm391x.se00255x.funix.utils.YoutubePlayer;
 
 import java.util.HashMap;
 import java.util.List;

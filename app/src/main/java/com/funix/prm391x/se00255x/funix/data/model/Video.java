@@ -1,4 +1,4 @@
-package com.funix.prm391x.se00255x.funix.model;
+package com.funix.prm391x.se00255x.funix.data.model;
 
 public class Video {
     private static final String THUMB_URL = "https://img.youtube.com/vi/%s/maxresdefault.jpg";

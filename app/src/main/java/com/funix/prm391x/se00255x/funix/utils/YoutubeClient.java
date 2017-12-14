@@ -1,6 +1,6 @@
 package com.funix.prm391x.se00255x.funix.utils;
 
-import com.funix.prm391x.se00255x.funix.model.retrofit.Playlist;
+import com.funix.prm391x.se00255x.funix.data.model.retrofit.Playlist;
 
 import java.util.Map;
 

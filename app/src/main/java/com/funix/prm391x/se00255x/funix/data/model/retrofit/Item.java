@@ -1,5 +1,5 @@
 
-package com.funix.prm391x.se00255x.funix.model.retrofit;
+package com.funix.prm391x.se00255x.funix.data.model.retrofit;
 
 import com.squareup.moshi.Json;
 
