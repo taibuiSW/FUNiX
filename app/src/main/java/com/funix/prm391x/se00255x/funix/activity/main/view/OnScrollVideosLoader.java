@@ -23,15 +23,23 @@ public class OnScrollVideosLoader extends RecyclerView.OnScrollListener
         implements Callback<Playlist> {
 
     private static final int VISIBLE_THRESHOLD = 10;
+    private static final HashMap<String, String> DEFAULT_OPTIONS = new HashMap<>();
 
     private static OnScrollVideosLoader mInstance;
 
     private DatabaseMgr mDbMgr;
     private YoutubeClient mYoutubeClient;
-    private HashMap<String, String> mOptions;
     private String mNextToken = "";
     private boolean mIsRunning;
     private int mCursor;
+
+    static {
+        DEFAULT_OPTIONS.put("part", "snippet");
+        DEFAULT_OPTIONS.put("fields", "items(snippet(resourceId/videoId,title)),nextPageToken");
+        DEFAULT_OPTIONS.put("maxResults", "20");
+        DEFAULT_OPTIONS.put("playlistId", "UUMOgdURr7d8pOVlc-alkfRg");
+        DEFAULT_OPTIONS.put("key", YoutubePlayer.API_KEY);
+    }
 
     public static OnScrollVideosLoader getInstance() {
         if (mInstance == null) {
@@ -44,14 +52,13 @@ public class OnScrollVideosLoader extends RecyclerView.OnScrollListener
         mDbMgr = DatabaseMgr.getInstance();
         mDbMgr.clearPlaylist();
         mYoutubeClient = YoutubeClientCreator.create();
-        setDefaultOptions();
     }
 
     public synchronized void getPlaylist() {
         if (mNextToken == null || mIsRunning) return;
         mIsRunning = true;
-        mOptions.put("pageToken", mNextToken);
-        mYoutubeClient.getPlaylist(mOptions).enqueue(this);
+        DEFAULT_OPTIONS.put("pageToken", mNextToken);
+        mYoutubeClient.getPlaylist(DEFAULT_OPTIONS).enqueue(this);
     }
 
     @Override
@@ -82,14 +89,5 @@ public class OnScrollVideosLoader extends RecyclerView.OnScrollListener
         if (totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
             getPlaylist();
         }
-    }
-
-    private void setDefaultOptions() {
-        mOptions = new HashMap<>();
-        mOptions.put("part", "snippet");
-        mOptions.put("fields", "items(snippet(resourceId/videoId,title)),nextPageToken");
-        mOptions.put("maxResults", "20");
-        mOptions.put("playlistId", "UUMOgdURr7d8pOVlc-alkfRg");
-        mOptions.put("key", YoutubePlayer.API_KEY);
     }
 }
