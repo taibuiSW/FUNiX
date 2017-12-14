@@ -4,7 +4,7 @@
     <string name="playlist">playlist</string>
     <string name="history">history</string>
     <string name="no_internet_access">No internet access</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Main Activity</string>
     <string name="facebook_app_id">133612704030505</string>
     <string name="fb_login_protocol_scheme">fb133612704030505</string>
 </resources>

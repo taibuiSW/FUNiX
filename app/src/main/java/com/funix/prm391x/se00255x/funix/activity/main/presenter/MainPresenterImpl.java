@@ -7,7 +7,7 @@ import android.content.Intent;
 import com.facebook.login.LoginManager;
 import com.funix.prm391x.se00255x.funix.activity.main.view.MainView;
 import com.funix.prm391x.se00255x.funix.utils.DatabaseMgr;
-import com.funix.prm391x.se00255x.funix.utils.VideosFetcher;
+import com.funix.prm391x.se00255x.funix.utils.OnScrollVideosLoader;
 import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragment;
 import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragmentView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +29,7 @@ public class MainPresenterImpl extends BroadcastReceiver implements MainPresente
         boolean isConnected = !intent.getBooleanExtra(EXTRA_NO_CONNECTIVITY, false);
         mMainView.indicateNetworkStatus(isConnected);
         if (!mFirstLoadSuccess && isConnected) {
-            VideosFetcher.getInstance().getPlaylist((Context) mMainView);
+            OnScrollVideosLoader.getInstance().getPlaylist();
             mFirstLoadSuccess = true;
         }
     }

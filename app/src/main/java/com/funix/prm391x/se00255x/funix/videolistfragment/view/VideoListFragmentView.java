@@ -1,6 +1,6 @@
 package com.funix.prm391x.se00255x.funix.videolistfragment.view;
 
-import com.funix.prm391x.se00255x.funix.pojo.Video;
+import com.funix.prm391x.se00255x.funix.model.Video;
 import com.google.firebase.database.Query;
 
 import static android.support.v7.widget.RecyclerView.OnScrollListener;

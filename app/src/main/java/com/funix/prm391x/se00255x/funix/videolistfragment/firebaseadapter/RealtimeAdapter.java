@@ -12,7 +12,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.funix.prm391x.se00255x.funix.utils.GlideApp;
 import com.funix.prm391x.se00255x.funix.R;
-import com.funix.prm391x.se00255x.funix.pojo.Video;
+import com.funix.prm391x.se00255x.funix.model.Video;
 import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragmentView;
 
 public class RealtimeAdapter extends FirebaseRecyclerAdapter<Video, RealtimeAdapter.VideoViewHolder> {

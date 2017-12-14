@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.funix.prm391x.se00255x.funix.pojo.Video;
+import com.funix.prm391x.se00255x.funix.model.Video;
 import com.funix.prm391x.se00255x.funix.activity.webplayer.WebPlayerActivity;
 import com.google.android.youtube.player.YouTubeApiServiceUtil;
 import com.google.android.youtube.player.YouTubeInitializationResult;

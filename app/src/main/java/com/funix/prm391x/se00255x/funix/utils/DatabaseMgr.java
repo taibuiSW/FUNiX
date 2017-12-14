@@ -1,6 +1,6 @@
 package com.funix.prm391x.se00255x.funix.utils;
 
-import com.funix.prm391x.se00255x.funix.pojo.Video;
+import com.funix.prm391x.se00255x.funix.model.Video;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
