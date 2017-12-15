@@ -6,9 +6,8 @@ import android.content.Intent;
 
 import com.facebook.login.LoginManager;
 import com.funix.prm391x.se00255x.funix.activity.main.view.MainView;
-import com.funix.prm391x.se00255x.funix.data.DatabaseMgr;
 import com.funix.prm391x.se00255x.funix.activity.main.view.OnScrollVideosLoader;
-import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragment;
+import com.funix.prm391x.se00255x.funix.data.DatabaseMgr;
 import com.funix.prm391x.se00255x.funix.videolistfragment.view.VideoListFragmentView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -16,8 +15,6 @@ import static android.net.ConnectivityManager.EXTRA_NO_CONNECTIVITY;
 
 public class MainPresenterImpl extends BroadcastReceiver implements MainPresenter {
     private MainView mMainView;
-    private VideoListFragment mPlaylistFragment;
-    private VideoListFragment mHistoryFragment;
     private boolean mFirstLoadSuccess;
 
     public MainPresenterImpl(MainView mainView) {
@@ -41,6 +38,9 @@ public class MainPresenterImpl extends BroadcastReceiver implements MainPresente
 
     @Override
     public void logout() {
+        OnScrollVideosLoader.clearInstance();
+        DatabaseMgr.clearInstance();
+
         // sign out firebase
         FirebaseAuth.getInstance().signOut();
 

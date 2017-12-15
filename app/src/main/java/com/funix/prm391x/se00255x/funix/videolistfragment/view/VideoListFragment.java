@@ -2,11 +2,13 @@ package com.funix.prm391x.se00255x.funix.videolistfragment.view;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +42,7 @@ public class VideoListFragment extends Fragment implements VideoListFragmentView
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mPresenter = new VideoListPresenterImpl();
         View v = inflater.inflate(R.layout.frag_list, container, false);
@@ -49,7 +51,7 @@ public class VideoListFragment extends Fragment implements VideoListFragmentView
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mLinearLayoutMgr = new LinearLayoutManager(getContext());
         mGridLayoutMgr = new GridLayoutManager(getContext(), 2);
         setLayoutMgr(getResources().getConfiguration().screenWidthDp);
@@ -75,6 +77,7 @@ public class VideoListFragment extends Fragment implements VideoListFragmentView
 
     @Override
     public void setUpAdapter(Query query) {
+        Log.e("___query", query.toString());
         FirebaseRecyclerOptions<Video> options = new FirebaseRecyclerOptions
                 .Builder<Video>()
                 .setQuery(query, Video.class)
@@ -82,6 +85,7 @@ public class VideoListFragment extends Fragment implements VideoListFragmentView
         mAdapter = new RealtimeAdapter(this, options);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.startListening();
+        Log.e("___", "start listening");
     }
 
     @Override

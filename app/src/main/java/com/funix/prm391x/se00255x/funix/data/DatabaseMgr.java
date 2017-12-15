@@ -14,6 +14,7 @@ public class DatabaseMgr {
     private static final String HISTORY  = "history";
 
     private static DatabaseMgr mInstance;
+
     private DatabaseReference mRefPlaylist;
     private DatabaseReference mRefHistory;
 
@@ -23,6 +24,10 @@ public class DatabaseMgr {
             mInstance = new DatabaseMgr();
         }
         return mInstance;
+    }
+
+    public static void clearInstance() {
+        mInstance = null;
     }
 
     private DatabaseMgr() {

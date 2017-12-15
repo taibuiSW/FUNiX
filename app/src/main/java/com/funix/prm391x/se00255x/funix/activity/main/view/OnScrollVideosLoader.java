@@ -3,6 +3,7 @@ package com.funix.prm391x.se00255x.funix.activity.main.view;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.funix.prm391x.se00255x.funix.data.DatabaseMgr;
 import com.funix.prm391x.se00255x.funix.data.model.Video;
@@ -48,6 +49,10 @@ public class OnScrollVideosLoader extends RecyclerView.OnScrollListener
         return mInstance;
     }
 
+    public static void clearInstance() {
+        mInstance = null;
+    }
+
     private OnScrollVideosLoader() {
         mDbMgr = DatabaseMgr.getInstance();
         mDbMgr.clearPlaylist();
@@ -70,6 +75,7 @@ public class OnScrollVideosLoader extends RecyclerView.OnScrollListener
         for (Item item : items) {
             mDbMgr.addToPlaylist(mCursor++, new Video(item.getSnippet().getTitle(),
                     item.getSnippet().getResourceId().getVideoId()));
+            Log.e("___", item.getSnippet().getTitle());
         }
         mIsRunning = false;
     }

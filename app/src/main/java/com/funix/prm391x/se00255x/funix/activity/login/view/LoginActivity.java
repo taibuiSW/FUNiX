@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void showProgress() {
-        mProgress = ProgressDialog.show(this, "logging firebase", "please wait...");
+        mProgress = ProgressDialog.show(this, "logging in firebase", "please wait...");
     }
 
     @Override
